@@ -1,0 +1,9 @@
+PASSOS PARA TESTAR O FICHEIRO PHP:
+
+1. TER A BASE DE DADOS ORIGEM E DESTINO IGUAL À DO GITHUB;
+
+2. TER O FICHEIRO PHP NO XAMP-HTDOCS
+
+3. TER O XAMPP LIGADO APACHE E MYSQL
+
+4. EXECUTAR NO BROWSER O SEGUINTE LINK: http://localhost/migracao.php (se mudaram o nome do ficheiro (http://localhost/nomedoficheiro.php)
