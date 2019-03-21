@@ -141,7 +141,7 @@ $executionStartTime = microtime(true);
 		if ($medicoesLuminosidadeOrigemLinhas>0){
 			while($r=mysqli_fetch_assoc($resultMedicoesLuminosidadeOrigem)){
 				if($medicoesLuminosidadeOrigemLinhas > $medicoesLuminosidadeDestinoLinhas) {
-					$insertDestino = mysqli_query($conec, "INSERT INTO db_mysql_destino.medicoesluminosidade_log (DataHora, DataHoraMedicao_NEW, DataHoraMedicao_OLD, ID, IDMedicao_NEW, IDMedicao_OLD, Operacao, Utilizador, ValorMedicaoLuminosidade_NEW, ValorMedicaoLuminosidade_OLD) SELECT DataHora, DataHoraMedicao_NEW, DataHoraMedicao_OLD, ID, IDMedicao_NEW, IDMedicao_OLD, Operacao, Utilizador, ValorMedicaoLuminosidade_NEW, ValorMedicaoLuminosidade_OLD FROM db_mysql_origem.medicoesluminosidade_log");
+					$insertDestino = mysqli_query($conec, "INSERT INTO db_mysql_destino.medicoesluminosidade_log (DataHora, DataHoraMedicao_NEW, DataHoraMedicao_OLD, ID, IDMedicao_NEW, IDMedicao_OLD, Operacao, Utilizador, ValorMedicaoLuminosidade_NEW, ValorMedicaoLuminosidade_OLD) SELECT DataHora, DataHoraMedicao_NEW, DataHoraMedicao_OLD, ID, IDMedicao_NEW, IDMedicao_OLD, Operacao, Utilizador, ValorMedicaoLuminosidade_NEW, ValorMedicaoLuminosidade_OLD FROM db_mysql_origem.medicoesluminosidade_log where Flag_Migracao = false");
 					$updateOrigem = mysqli_query($conn, "UPDATE db_mysql_origem.medicoesluminosidade_log set Flag_Migracao = true where ID in (select ID from db_mysql_destino.medicoesluminosidade_log) and Flag_Migracao =false");
 				}
 			}
