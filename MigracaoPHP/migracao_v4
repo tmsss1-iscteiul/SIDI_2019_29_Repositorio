@@ -4,7 +4,7 @@ $url="127.0.0.1";
 //nome das bases de dados
 $destinodb="db_mysql_destino";
 $origemdb="db_mysql_origem";
-$username="root";
+$username="root"; // TEMOS DE MUDAR O USERNAME E A PASSWORD PARA O SGBD. QUESTÕES DE SEGURANÇA, ID E PASSWORD NO FICHEIRO. SE ALGUÉM ABRE O FICHEIRO TEM ACESSO TOTAL A BD. FICHEIRO TEM DE ESTAR PROTEGIDO? MANEIRA MAIS FÁCIL DE SIMPLIFICAR ISTO?
 $password="";
 //ligação entre as bases de dados acima com o php 
 $conn = mysqli_connect($url, $username, $password, $origemdb);
