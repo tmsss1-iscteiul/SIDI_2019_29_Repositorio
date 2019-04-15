@@ -1,0 +1,210 @@
+package investigador;
+
+import java.awt.EventQueue;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import javax.swing.JTextField;
+import java.awt.TextArea;
+import java.awt.Choice;
+import java.awt.TextField;
+import java.awt.Button;
+
+public class Investigador_GUI {
+
+	private JFrame frame;
+	
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Investigador_GUI window = new Investigador_GUI();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public Investigador_GUI() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 980, 530);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		// Painel de Botoes Esquerdo
+		JPanel buttonsPanel = new JPanel();
+		buttonsPanel.setLayout(new GridLayout(4, 1));
+		frame.getContentPane().add(buttonsPanel, BorderLayout.WEST);
+
+		JButton btnCriarCultura = new JButton("Criar Cultura");
+		buttonsPanel.add(btnCriarCultura);
+		JButton btnAtribuirVariavel = new JButton("Atribuir Variavel");
+		buttonsPanel.add(btnAtribuirVariavel);
+		JButton btnVerCulturas = new JButton("Ver Culturas");
+		buttonsPanel.add(btnVerCulturas);
+		JButton btnInserirMedida = new JButton("Inserir Medicao");
+		buttonsPanel.add(btnInserirMedida);
+		
+		
+		// Painel de Norte
+		JPanel loginPanel = new JPanel();
+		frame.getContentPane().add(loginPanel, BorderLayout.NORTH);
+
+		JButton btnLogout = new JButton("Logout");
+		btnLogout.setHorizontalAlignment(SwingConstants.RIGHT);
+		loginPanel.add(btnLogout);
+
+		// Painel Centro
+		JPanel centerPanel = new JPanel();
+		frame.getContentPane().add(centerPanel, BorderLayout.CENTER);
+		
+		
+		
+		
+
+		// Painel Criar Cultura (pcc)
+		JPanel criarCulturaPanel = new JPanel();
+
+		JLabel pcc_lbl1 = new JLabel("Nome Cultura:");
+		criarCulturaPanel.add(pcc_lbl1);
+		
+		JTextField pcc_NomeCultura = new JTextField();
+		pcc_NomeCultura.setColumns(10);
+		criarCulturaPanel.add(pcc_NomeCultura);
+
+		JLabel pcc_lbl2 = new JLabel("Descri��o:");
+		criarCulturaPanel.add(pcc_lbl2);
+
+		JTextField pcc_DescricaoCultura = new JTextField();
+		pcc_DescricaoCultura.setColumns(10);
+		criarCulturaPanel.add(pcc_DescricaoCultura);
+
+		JButton pcc_ButtonInserirCultura = new JButton("Inserir");
+		criarCulturaPanel.add(pcc_ButtonInserirCultura);
+
+		
+		
+		// Painel Ver Culturas (pvc)
+		JPanel verCulturasPanel = new JPanel();
+
+		Choice pvc_ListaCulturas = new Choice();
+		verCulturasPanel.add(pvc_ListaCulturas);
+
+		TextArea pvc_DescricaoCultura = new TextArea();
+		verCulturasPanel.add(pvc_DescricaoCultura);
+
+		Choice pvc_ListaMedicoes = new Choice();
+		verCulturasPanel.add(pvc_ListaMedicoes);
+
+		TextArea pvc_DescricaoMedicao = new TextArea();
+		verCulturasPanel.add(pvc_DescricaoMedicao);
+
+		
+		
+		// Painel Atribuir Variavel (pv)
+		JPanel atribuirVariavelPanel = new JPanel();
+		
+		Choice pv_ListaCulturas = new Choice();
+		atribuirVariavelPanel.add(pv_ListaCulturas);
+		
+		Choice pv_ListaVariaveis = new Choice();
+		atribuirVariavelPanel.add(pv_ListaVariaveis);
+		
+		Button pv_ButtonAtribuirVariavel = new Button("Atribuir");
+		atribuirVariavelPanel.add(pv_ButtonAtribuirVariavel);
+		
+		
+		
+		// Painel Inserir Medicoes (pm)
+		JPanel inserirMedicoesPanel = new JPanel();
+		
+		Choice pm_ListaCulturas = new Choice();
+		inserirMedicoesPanel.add(pm_ListaCulturas);
+		
+		Choice pm_Listavariaveis = new Choice();
+		inserirMedicoesPanel.add(pm_Listavariaveis);
+		
+		TextField pm_ValorMedicao = new TextField();
+		inserirMedicoesPanel.add(pm_ValorMedicao);
+		
+		Button pm_ButtonInserirMedicao = new Button("Inserir");
+		inserirMedicoesPanel.add(pm_ButtonInserirMedicao);
+		
+		
+		
+		// ActionListener botoes esquerda
+		btnVerCulturas.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				centerPanel.removeAll();
+				centerPanel.repaint();
+				centerPanel.revalidate();
+				centerPanel.add(verCulturasPanel);
+				centerPanel.repaint();
+				centerPanel.revalidate();
+			}
+		});
+		btnCriarCultura.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				centerPanel.removeAll();
+				centerPanel.repaint();
+				centerPanel.revalidate();
+				centerPanel.add(criarCulturaPanel);
+				centerPanel.repaint();
+				centerPanel.revalidate();
+			}
+		});
+		btnAtribuirVariavel.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				centerPanel.removeAll();
+				centerPanel.repaint();
+				centerPanel.revalidate();
+				centerPanel.add(atribuirVariavelPanel);
+				centerPanel.repaint();
+				centerPanel.revalidate();
+			}
+		});
+		btnInserirMedida.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				centerPanel.removeAll();
+				centerPanel.repaint();
+				centerPanel.revalidate();
+				centerPanel.add(inserirMedicoesPanel);
+				centerPanel.repaint();
+				centerPanel.revalidate();
+			}
+		});
+		
+		
+	}
+
+}
