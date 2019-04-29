@@ -60,7 +60,7 @@ public class ComandosInvestigador {
 		estlig = new EstabeleceLigacao();
 		Connection conn =estlig.getConnection("beatriz", "hey");
 		try {
-			PreparedStatement query = conn.prepareStatement("UPDATE variaveismedidas set IDVariavel = '"+idVariaveis+"' WHERE IDCultura_Cultura = '"+idCultura+"')");
+			PreparedStatement query = conn.prepareStatement("UPDATE variaveismedidas set IDVariavel_Variaveis="+idVariaveis+" WHERE IDCultura_Cultura="+idCultura+";");
 			query.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -68,31 +68,28 @@ public class ComandosInvestigador {
 
 
 	}
-//Ainda não funciona
 
-//	public int buscaIDCultura(String nomeCultura) throws Exception {
-//		int id = 0;
-//		for (Cultura cultura: getCultura()) {
-//			if(!(cultura.getNome().equals(nomeCultura))) {
-//				System.out.println("Erro");
-//			}
-//			id = cultura.getID();
-//		}
-//		System.out.println(id);
-//		return id;
-//	}
-//	
-//	public int buscaIDVariavel(String nomeVariavel) throws Exception {
-//		int id = 0;
-//		for (Variavel variavel: getVariaveis()) {
-//			if(!(variavel.getNome().equals(nomeVariavel))) {
-//				System.out.println("Erro");
-//			}
-//			id = variavel.getID();
-//		}
-//		System.out.println(id);
-//		return id;
-//	}
+	public int buscaIDCultura(String nomeCultura) throws Exception {
+		int id = 0;
+		for (Cultura cultura: getCultura()) {
+			if(cultura.getNome().equals(nomeCultura)) {
+				id = cultura.getID();
+			}
+		}
+		System.out.println(id);
+		return id;
+	}
+
+	public int buscaIDVariavel(String nomeVariavel) throws Exception {
+		int id = 0;
+		for (Variavel variavel: getVariaveis()) {
+			if(variavel.getNome().equals(nomeVariavel)) {
+				id = variavel.getID();
+			}
+		}
+		System.out.println(id);
+		return id;
+	}
 
 }
 
