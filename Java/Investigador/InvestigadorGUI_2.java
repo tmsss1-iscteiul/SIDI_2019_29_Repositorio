@@ -30,6 +30,7 @@ public class InvestigadorGUI {
 	Choice pv_ListaCulturas;
 	private ComandosInvestigador comando = new ComandosInvestigador();
 	private ItemHandler handler = new ItemHandler();
+	private Choice pv_ListaVariaveis;
 
 
 	/**
@@ -48,7 +49,7 @@ public class InvestigadorGUI {
 			}
 		});
 	}
-	
+
 	private void adicionaNomeCulturaChoice(Choice boxCultura) {
 		try {
 			ArrayList<Cultura> culturas = comando.getCultura();
@@ -143,7 +144,7 @@ public class InvestigadorGUI {
 
 		pvc_ListaCulturas = new Choice();
 		verCulturasPanel.add(pvc_ListaCulturas);
-		
+
 		pvc_ListaCulturas.addItemListener(handler);
 		adicionaNomeCulturaChoice(pvc_ListaCulturas);
 
@@ -168,11 +169,12 @@ public class InvestigadorGUI {
 		pv_ListaCulturas = new Choice();
 		atribuirVariavelPanel.add(pv_ListaCulturas);
 		adicionaNomeCulturaChoice(pv_ListaCulturas);
+		pv_ListaCulturas.addItemListener(handler);
 
-		Choice pv_ListaVariaveis = new Choice();
+		pv_ListaVariaveis = new Choice();
 		atribuirVariavelPanel.add(pv_ListaVariaveis);
-		
-		
+		pv_ListaVariaveis.addItemListener(handler);
+
 		try {
 			for(Variavel variavel : comando.getVariaveis() ) {
 				pv_ListaVariaveis.add(variavel.getNome());
@@ -181,31 +183,31 @@ public class InvestigadorGUI {
 		} catch (Exception e2) {
 			e2.printStackTrace();
 		}
-		
+
 
 		Button pv_ButtonAtribuirVariavel = new Button("Atribuir");
 		atribuirVariavelPanel.add(pv_ButtonAtribuirVariavel);
-		
+
 		/*Atribuir variável botão */
 		pv_ButtonAtribuirVariavel.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//					String cultura = pv_ListaCulturas.getSelectedItem();
-//					String variavel = pv_ListaVariaveis.getSelectedItem();
-//					int idCultura=0;
-//					int idVariavel=0;
-//					try {
-//						idCultura =comando.buscaIDCultura(cultura);
-//					} catch (Exception e1) {
-//						System.out.println("Erro IDCultura");
-//					}
-//					try {
-//						idVariavel= comando.buscaIDVariavel(variavel);
-//					} catch (Exception e1) {
-//						System.out.println("Erro IDVariavel");
-//					}
-//					comando.updateVariavel(idVariavel, idCultura);	
-//					
+				String cultura = pv_ListaCulturas.getSelectedItem();
+				String variavel = pv_ListaVariaveis.getSelectedItem();
+				int idCultura=0;
+				int idVariavel=0;
+				try {
+					idCultura =comando.buscaIDCultura(cultura);
+				} catch (Exception e1) {
+					System.out.println("Erro IDCultura");
+				}
+				try {
+					idVariavel= comando.buscaIDVariavel(variavel);
+				} catch (Exception e1) {
+					System.out.println("Erro IDVariavel");
+				}
+				comando.updateVariavel(idVariavel, idCultura);	
+				//					
 			}
 		});
 
@@ -306,6 +308,12 @@ public class InvestigadorGUI {
 						}
 					}
 				}
+				//				if(evento.getSource() == pv_ListaVariaveis) {
+				//					comando.buscaIDVariavel(pv_ListaVariaveis.getSelectedItem());
+				//				}
+				//				if(evento.getSource() == pv_ListaCulturas) {
+				//					comando.buscaIDCultura(pv_ListaCulturas.getSelectedItem());
+				//				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
