@@ -1,4 +1,4 @@
-package investigador;
+package pt.iscte.es.investigador;
 
 import java.awt.EventQueue;
 
@@ -390,7 +390,7 @@ public class Investigador_GUI extends JFrame {
 	
 	private void logout() {
 		JOptionPane.showMessageDialog(contentPane, "You have sucessfully logged out!");
-		login.Login_GUI login = new login.Login_GUI();
+		pt.iscte.es.login.Login_GUI login = new pt.iscte.es.login.Login_GUI();
 		login.setVisible(true);
 		dispose();
 	}

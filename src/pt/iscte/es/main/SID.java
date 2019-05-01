@@ -1,6 +1,6 @@
-package main;
+package pt.iscte.es.main;
 
-import login.Login_GUI;
+import pt.iscte.es.login.Login_GUI;
 
 public class SID {
 

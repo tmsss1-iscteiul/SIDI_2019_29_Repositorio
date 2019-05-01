@@ -1,4 +1,4 @@
-package admin;
+package pt.iscte.es.admin;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -376,7 +376,7 @@ public class Admin_GUI extends JFrame {
 	
 	private void logout() {
 		JOptionPane.showMessageDialog(null, "You have sucessfully logged out!");
-		login.Login_GUI login = new login.Login_GUI();
+		pt.iscte.es.login.Login_GUI login = new pt.iscte.es.login.Login_GUI();
 		login.setVisible(true);
 		dispose();
 	}

@@ -1,4 +1,4 @@
-package login;
+package pt.iscte.es.login;
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -114,12 +114,12 @@ public class Login_GUI extends JFrame {
 	private void login(JTextField user, JTextField password) {
 		if(user.getText().equals("investigador") && password.getText().equals("12345")){
 			JOptionPane.showMessageDialog(null ,"You have sucessfully logged in!");
-			investigador.Investigador_GUI loggedin = new investigador.Investigador_GUI();
+			pt.iscte.es.investigador.Investigador_GUI loggedin = new pt.iscte.es.investigador.Investigador_GUI();
 			loggedin.setVisible(true);
 			dispose();
 		}else if (user.getText().equals("admin") && password.getText().equals("qwert")){
 			JOptionPane.showMessageDialog(null ,"You have sucessfully logged in!");
-			admin.Admin_GUI loggedin = new admin.Admin_GUI();
+			pt.iscte.es.admin.Admin_GUI loggedin = new pt.iscte.es.admin.Admin_GUI();
 			loggedin.setVisible(true);
 			dispose();
 		}
