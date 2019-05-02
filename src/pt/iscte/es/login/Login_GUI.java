@@ -14,6 +14,10 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
+import pt.iscte.es.investigador.Investigador_GUI;
+import pt.iscte.es.main.EstabeleceLigacao;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -27,6 +31,9 @@ public class Login_GUI extends JFrame {
 	private JPanel contentPane;
 	private JTextField user;
 	private JTextField password;
+	private String username;
+	private String pass;
+	private EstabeleceLigacao link = new EstabeleceLigacao();
 
 	/**
 	 * Launch the application.
@@ -110,11 +117,29 @@ public class Login_GUI extends JFrame {
 
 		});
 	}
+	
+	public String getUsername() {
+		return username;
+	}
+	
+	public String getPassword() {
+		return pass;
+	}
+	
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
+	public void setPassword(String pass) {
+		this.pass = pass;
+	}
 
 	private void login(JTextField user, JTextField password) {
-		if(user.getText().equals("investigador") && password.getText().equals("12345")){
+		if (link.getConnection(user.getText(), password.getText()) != null) {
+			username = user.getText();
+			pass = password.getText();
 			JOptionPane.showMessageDialog(null ,"You have sucessfully logged in!");
-			pt.iscte.es.investigador.Investigador_GUI loggedin = new pt.iscte.es.investigador.Investigador_GUI();
+			Investigador_GUI loggedin = new Investigador_GUI();
 			loggedin.setVisible(true);
 			dispose();
 		}else if (user.getText().equals("admin") && password.getText().equals("qwert")){
@@ -125,7 +150,5 @@ public class Login_GUI extends JFrame {
 		}
 		else
 			JOptionPane.showMessageDialog(null,"Username or Password Invalid!");
-	}
-	
-	
+	}	
 }
