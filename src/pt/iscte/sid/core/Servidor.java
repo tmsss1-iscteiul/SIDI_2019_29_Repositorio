@@ -6,4 +6,9 @@ public class Servidor {
 		
 	}
 	
+	public void PrintSensorMessages() {
+		
+	}
+	
+	
 }
