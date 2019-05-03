@@ -11,6 +11,11 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
+import pt.iscte.sid.core.Servidor;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 public class ServerWindow {
 
 	private JFrame frmJanelaDeControlo;
@@ -23,8 +28,7 @@ public class ServerWindow {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ServerWindow window = new ServerWindow();
-					window.frmJanelaDeControlo.setVisible(true);
+					new ServerWindow();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -37,6 +41,7 @@ public class ServerWindow {
 	 */
 	public ServerWindow() {
 		initialize();
+		frmJanelaDeControlo.setVisible(true);
 	}
 
 	/**
@@ -53,11 +58,34 @@ public class ServerWindow {
 		panel.setLayout(null);
 		
 		JButton btnStart = new JButton("Start");
+		btnStart.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				EventQueue.invokeLater(new Runnable() {
+					
+					@Override
+					public void run() {
+						try {
+							new Servidor();
+						}catch (Exception e) {
+							e.printStackTrace();
+						}
+						
+					}
+				});
+			}
+		});
 		btnStart.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnStart.setBounds(244, 98, 102, 32);
 		panel.add(btnStart);
 		
 		JButton btnModificarTempo = new JButton("Modificar Tempo");
+		btnModificarTempo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+		});
 		btnModificarTempo.setBounds(314, 42, 127, 32);
 		panel.add(btnModificarTempo);
 		
@@ -79,6 +107,12 @@ public class ServerWindow {
 		panel.add(lblNewLabel);
 		
 		JButton btnStop = new JButton("Stop");
+		btnStop.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+		});
 		btnStop.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnStop.setBounds(380, 98, 102, 32);
 		panel.add(btnStop);
