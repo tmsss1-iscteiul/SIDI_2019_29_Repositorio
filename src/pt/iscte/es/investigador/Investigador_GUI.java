@@ -5,11 +5,17 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import pt.iscte.es.main.EstabeleceLigacao;
+import pt.iscte.es.objetos.Cultura;
+import pt.iscte.es.objetos.Variavel;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Choice;
 import java.awt.Color;
 
 import javax.swing.SwingConstants;
@@ -19,6 +25,10 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.JTextArea;
 
@@ -29,26 +39,37 @@ public class Investigador_GUI extends JFrame {
 	 */
 	private static final long serialVersionUID = -2695713581214000006L;
 
+	private ItemHandler handler = new ItemHandler();
+	private EstabeleceLigacao link = new EstabeleceLigacao();
+	private ComandosInvestigador cmd = new ComandosInvestigador();
+
 	private JPanel contentPane;
 	private JPanel centerPanel;
-	
+
 	private JPanel criarCulturaPanel;
 	private JTextField textField_NomeCultura_pcc;
 	private JButton btn_InserirCultura_pcc;
-	
+
 	private JPanel verCulturasPanel;
 	private JTextField textField_NomeCultura_pvc;
 	private JButton btn_AlterarCultura_pvc;
-	
+
 	private JPanel atribuirVariavelPanel;
 	private JTextField textField_LimiteInferior_pav;
 	private JTextField textField_LimiteSuperior_pav;
 	private JButton btn_AtribuirVariavel_pav;
-	
+
 	private JPanel inserirMedicoesPanel;
 	private JTextField textField_ValorMedicao_pim;
 	private JButton btn_InserirMedicao_pim;
-	
+
+	private Choice comboBox_Cultura_pvc;
+	private JTextArea textArea_DescricaoCultura_pvc;
+	private Choice comboBox_Cultura_pav;
+	private Choice comboBox_Variavel_pav;
+
+	private Choice comboBox_Cultura_pim;
+	private Choice comboBox_Variavel_pim;
 
 	/**
 	 * Launch the application.
@@ -64,6 +85,29 @@ public class Investigador_GUI extends JFrame {
 				}
 			}
 		});
+	}
+
+	private void adicionaNomeCulturaChoice(Choice boxCultura) {
+		try {
+			ArrayList<Cultura> culturas = cmd.getCultura();
+			for(Cultura cultura : culturas ) {
+				boxCultura.add(cultura.getNome());
+			}
+
+		} catch (Exception e2) {
+			e2.printStackTrace();
+		}
+	}
+
+	private void adicionaNomeVariavelChoice(Choice boxVariavel) {
+		try {
+			for(Variavel variavel : cmd.getVariaveis() ) {
+				boxVariavel.add(variavel.getNome());
+			}
+
+		} catch (Exception e2) {
+			e2.printStackTrace();
+		}
 	}
 
 	/**
@@ -108,7 +152,7 @@ public class Investigador_GUI extends JFrame {
 		panel_VerCulturas();
 		panel_AtribuirVariavel();
 		panel_InserirMedicoes();
-		
+
 		addButtonsActions();
 
 		JSeparator separator_1 = new JSeparator();
@@ -117,7 +161,7 @@ public class Investigador_GUI extends JFrame {
 		separator_1.setBackground(Color.BLACK);
 		separator_1.setBounds(170, 50, 5, 250);
 		contentPane.add(separator_1);
-		
+
 		// Painel Esquerdo (Botoes)
 		JPanel Left = new JPanel();
 		Left.setBackground(new Color(51, 204, 102));
@@ -134,7 +178,7 @@ public class Investigador_GUI extends JFrame {
 			}
 		});
 		Left.add(btnCriarCultura);
-		
+
 		JButton btnVerCulturas = new JButton("Ver Culturas");
 		btnVerCulturas.setBounds(10, 70, 150, 50);
 		btnVerCulturas.addActionListener(new ActionListener() {
@@ -144,7 +188,7 @@ public class Investigador_GUI extends JFrame {
 			}
 		});
 		Left.add(btnVerCulturas);
-		
+
 		JButton btnAtribuirVariavel = new JButton("Atribuir Variavel");
 		btnAtribuirVariavel.setBounds(10, 130, 150, 50);
 		btnAtribuirVariavel.addActionListener(new ActionListener() {
@@ -154,7 +198,7 @@ public class Investigador_GUI extends JFrame {
 			}
 		});
 		Left.add(btnAtribuirVariavel);
-		
+
 		JButton btnInserirMedida = new JButton("Inserir Medi\u00E7\u00F5es");
 		btnInserirMedida.setBounds(10, 190, 150, 50);
 		btnInserirMedida.addActionListener(new ActionListener() {
@@ -227,10 +271,11 @@ public class Investigador_GUI extends JFrame {
 		lblCultura_pvc.setBounds(40, 40, 70, 25);
 		verCulturasPanel.add(lblCultura_pvc);
 
-		JComboBox comboBox_Cultura_pvc = new JComboBox();
+		comboBox_Cultura_pvc = new Choice();
+		adicionaNomeCulturaChoice(comboBox_Cultura_pvc);
+		comboBox_Cultura_pvc.addItemListener(handler);
+
 		comboBox_Cultura_pvc.setBackground(Color.WHITE);
-		comboBox_Cultura_pvc.setModel(new DefaultComboBoxModel(new String[] { "Cultura1", "Cultura2", "Cultura3",
-				"Cultura4", "Cultura5", "Cultura6", "Cultura7", "Cultura8", "Cultura9", "Cultura10" }));
 		comboBox_Cultura_pvc.setBounds(110, 40, 180, 25);
 		verCulturasPanel.add(comboBox_Cultura_pvc);
 
@@ -247,7 +292,7 @@ public class Investigador_GUI extends JFrame {
 		lblDescricao_pvc.setBounds(40, 120, 100, 25);
 		verCulturasPanel.add(lblDescricao_pvc);
 
-		JTextArea textArea_DescricaoCultura_pvc = new JTextArea();
+		textArea_DescricaoCultura_pvc = new JTextArea();
 		textArea_DescricaoCultura_pvc.setBounds(110, 120, 180, 80);
 		verCulturasPanel.add(textArea_DescricaoCultura_pvc);
 
@@ -266,10 +311,9 @@ public class Investigador_GUI extends JFrame {
 		lblCultura_pav.setBounds(40, 40, 70, 25);
 		atribuirVariavelPanel.add(lblCultura_pav);
 
-		JComboBox comboBox_Cultura_pav = new JComboBox();
+		comboBox_Cultura_pav = new Choice();
 		comboBox_Cultura_pav.setBackground(Color.WHITE);
-		comboBox_Cultura_pav.setModel(new DefaultComboBoxModel(new String[] { "Cultura1", "Cultura2", "Cultura3",
-				"Cultura4", "Cultura5", "Cultura6", "Cultura7", "Cultura8", "Cultura9", "Cultura10" }));
+		adicionaNomeCulturaChoice(comboBox_Cultura_pav);
 		comboBox_Cultura_pav.setBounds(110, 40, 180, 25);
 		atribuirVariavelPanel.add(comboBox_Cultura_pav);
 
@@ -277,11 +321,10 @@ public class Investigador_GUI extends JFrame {
 		lblVariavel_pav.setBounds(40, 80, 70, 25);
 		atribuirVariavelPanel.add(lblVariavel_pav);
 
-		JComboBox comboBox_Variavel_pav = new JComboBox();
+		comboBox_Variavel_pav = new Choice();
 		comboBox_Variavel_pav.setBackground(Color.WHITE);
-		comboBox_Variavel_pav.setModel(new DefaultComboBoxModel(new String[] { "Variavel1", "Variavel2", "Variavel3",
-				"Variavel4", "Variavel5", "Variavel6", "Variavel7", "Variavel8", "Variavel9", "Variavel10" }));
 		comboBox_Variavel_pav.setBounds(110, 80, 180, 25);
+		adicionaNomeVariavelChoice(comboBox_Variavel_pav);
 		atribuirVariavelPanel.add(comboBox_Variavel_pav);
 
 		JLabel lblLimiteInferior_pav = new JLabel("Limite Inferior:");
@@ -317,21 +360,22 @@ public class Investigador_GUI extends JFrame {
 		lblCultura_pim.setBounds(40, 40, 70, 25);
 		inserirMedicoesPanel.add(lblCultura_pim);
 
-		JComboBox comboBox_Cultura_pim = new JComboBox();
+		comboBox_Cultura_pim = new Choice();
 		comboBox_Cultura_pim.setBackground(Color.WHITE);
-		comboBox_Cultura_pim.setModel(new DefaultComboBoxModel(new String[] { "Cultura1", "Cultura2", "Cultura3",
-				"Cultura4", "Cultura5", "Cultura6", "Cultura7", "Cultura8", "Cultura9", "Cultura10" }));
+		adicionaNomeCulturaChoice(comboBox_Cultura_pim);
 		comboBox_Cultura_pim.setBounds(110, 40, 180, 25);
 		inserirMedicoesPanel.add(comboBox_Cultura_pim);
 
+		comboBox_Cultura_pim.addItemListener(handler);
+		
 		JLabel lblVariavel_pim = new JLabel("Variavel:");
 		lblVariavel_pim.setBounds(40, 80, 70, 25);
 		inserirMedicoesPanel.add(lblVariavel_pim);
 
-		JComboBox comboBox_Variavel_pim = new JComboBox();
+		/*Este choice é diferente... Vai buscar as variáveis da cultura seleccionada...*/
+		comboBox_Variavel_pim = new Choice();
 		comboBox_Variavel_pim.setBackground(Color.WHITE);
-		comboBox_Variavel_pim.setModel(new DefaultComboBoxModel(new String[] { "Variavel1", "Variavel2", "Variavel3",
-				"Variavel4", "Variavel5", "Variavel6", "Variavel7", "Variavel8", "Variavel9", "Variavel10" }));
+		//adicionaNomeVariavelChoice(comboBox_Variavel_pim);
 		comboBox_Variavel_pim.setBounds(110, 80, 180, 25);
 		inserirMedicoesPanel.add(comboBox_Variavel_pim);
 
@@ -357,7 +401,7 @@ public class Investigador_GUI extends JFrame {
 		centerPanel.repaint();
 		centerPanel.revalidate();
 	}
-	
+
 	private void addButtonsActions() {
 		btn_InserirCultura_pcc.addActionListener(new ActionListener() {
 			@Override
@@ -365,32 +409,89 @@ public class Investigador_GUI extends JFrame {
 				JOptionPane.showMessageDialog(null, "Cultura inserida com sucesso.");
 			}
 		});
-		
+
 		btn_AlterarCultura_pvc.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Cultura alterada com sucesso.");
 			}
 		});
-		
+
 		btn_AtribuirVariavel_pav.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Variavel atribuida com sucesso a cultura.");
+				System.out.println(comboBox_Cultura_pav.getSelectedItem() + "" + comboBox_Variavel_pav.getSelectedItem());
+				String cultura = comboBox_Cultura_pav.getSelectedItem();
+				String variavel = comboBox_Variavel_pav.getSelectedItem();
+				try {
+					int idCultura = cmd.buscaIDCultura(cultura);
+					int idVariavel = cmd.buscaIDVariavel(variavel);
+					String limInf = textField_LimiteInferior_pav.getText();
+					String limSup = textField_LimiteSuperior_pav.getText();
+					double valorLimiteInf = Double.parseDouble(limInf);
+					double valorLimiteSup = Double.parseDouble(limSup);
+					if(cmd.insertVariavel(idVariavel, idCultura, valorLimiteInf, valorLimiteSup) == 1) {
+						JOptionPane.showMessageDialog(null, "Variavel atribuída com sucesso a cultura.");
+					}else {
+						JOptionPane.showMessageDialog(null, "Variavel não atribuída.");
+					}
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
-		
+
 		btn_InserirMedicao_pim.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String medicaoEmString = textField_ValorMedicao_pim.getText();
+				double valor = Double.parseDouble(medicaoEmString);
+				try {
+					cmd.insertMedicao(cmd.buscaIDCultura(comboBox_Cultura_pim.getSelectedItem()), cmd.buscaIDVariavel(comboBox_Variavel_pim.getSelectedItem()), valor);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				JOptionPane.showMessageDialog(null, "Medição inserida com sucesso.");
 			}
 		});
 	}
+
+	private class ItemHandler implements ItemListener {
+		@Override
+		public void itemStateChanged(ItemEvent evento) {
+			try {
+				if(evento.getSource() == comboBox_Cultura_pvc) {
+					for(Cultura cultura : cmd.getCultura()) {
+						if(comboBox_Cultura_pvc.getSelectedItem().equals(cultura.getNome())) {
+							textArea_DescricaoCultura_pvc.setText(cultura.getDescricao());
+							textField_NomeCultura_pvc.setText(cultura.getNome());	
+						}
+					}
+				} if(evento.getSource() == comboBox_Cultura_pim) {
+					int id = cmd.buscaIDCultura(comboBox_Cultura_pim.getSelectedItem());
+					comboBox_Variavel_pim.removeAll();
+					for(Variavel v : cmd.getVariavelEspecifica(id)) {
+						comboBox_Variavel_pim.add(v.getNome());
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
 	
+	
+
 	private void logout() {
 		JOptionPane.showMessageDialog(contentPane, "You have sucessfully logged out!");
 		pt.iscte.es.login.Login_GUI login = new pt.iscte.es.login.Login_GUI();
+		cmd.setUsername(null);
+		cmd.setPassword(null);
 		login.setVisible(true);
 		dispose();
 	}

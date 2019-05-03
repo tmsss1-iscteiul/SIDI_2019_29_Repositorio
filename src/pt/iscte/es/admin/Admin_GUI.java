@@ -20,6 +20,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import pt.iscte.es.login.Login_GUI;
+
 public class Admin_GUI extends JFrame {
 
 	/**
@@ -376,7 +378,7 @@ public class Admin_GUI extends JFrame {
 	
 	private void logout() {
 		JOptionPane.showMessageDialog(null, "You have sucessfully logged out!");
-		pt.iscte.es.login.Login_GUI login = new pt.iscte.es.login.Login_GUI();
+		Login_GUI login = new Login_GUI();
 		login.setVisible(true);
 		dispose();
 	}
