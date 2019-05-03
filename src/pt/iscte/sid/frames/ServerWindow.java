@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.Font;
+import javax.swing.SwingConstants;
 
 public class ServerWindow {
 
@@ -51,17 +52,14 @@ public class ServerWindow {
 		frmJanelaDeControlo.getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.setBounds(376, 98, 102, 32);
-		panel.add(btnNewButton);
+		JButton btnStart = new JButton("Start");
+		btnStart.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnStart.setBounds(244, 98, 102, 32);
+		panel.add(btnStart);
 		
-		JButton button = new JButton("New button");
-		button.setBounds(244, 98, 102, 32);
-		panel.add(button);
-		
-		JButton button_1 = new JButton("New button");
-		button_1.setBounds(314, 42, 102, 32);
-		panel.add(button_1);
+		JButton btnModificarTempo = new JButton("Modificar Tempo");
+		btnModificarTempo.setBounds(314, 42, 127, 32);
+		panel.add(btnModificarTempo);
 		
 		txtTempoParaMigrao = new JTextField();
 		txtTempoParaMigrao.setText(" Tempo para migra\u00E7\u00E3o Mongo - MySQL");
@@ -75,8 +73,14 @@ public class ServerWindow {
 		panel.add(lblTempoDefault);
 		
 		JLabel lblNewLabel = new JLabel("Server Stoped!");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblNewLabel.setBounds(47, 97, 112, 32);
 		panel.add(lblNewLabel);
+		
+		JButton btnStop = new JButton("Stop");
+		btnStop.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnStop.setBounds(380, 98, 102, 32);
+		panel.add(btnStop);
 	}
 }
