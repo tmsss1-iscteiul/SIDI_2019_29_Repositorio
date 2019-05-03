@@ -490,8 +490,8 @@ public class Investigador_GUI extends JFrame {
 	private void logout() {
 		JOptionPane.showMessageDialog(contentPane, "You have sucessfully logged out!");
 		pt.iscte.es.login.Login_GUI login = new pt.iscte.es.login.Login_GUI();
-		login.setUsername(null);
-		login.setPassword(null);
+		cmd.setUsername(null);
+		cmd.setPassword(null);
 		login.setVisible(true);
 		dispose();
 	}

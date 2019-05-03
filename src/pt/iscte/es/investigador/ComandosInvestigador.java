@@ -1,6 +1,7 @@
 package pt.iscte.es.investigador;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,11 +13,45 @@ import pt.iscte.es.objetos.Variavel;
 
 public class ComandosInvestigador {
 	private EstabeleceLigacao estlig; 
+	private String username;
+	private String password;
+	
+	public String getUsername() {
+		return username;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+	
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
+	public Connection getConnection() {
+		try {
+			String driver = "com.mysql.jdbc.Driver";
+			String url = "jdbc:mysql://localhost:3306/db_mysql_origem";
+			Class.forName(driver);
+			
+			Connection conn = DriverManager.getConnection(url, username, password);
+			System.out.println("Sucesso");
+			return conn;
+		
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		return null;
+	}
+	
 	public void inserirCultura(int id, String mail, String cultura, String descricao) throws Exception {
 		try {
 			estlig = new EstabeleceLigacao();
-			Connection conn =estlig.getConnection("beatriz", "hey");
+			Connection conn = getConnection();
 			PreparedStatement inserir = conn.prepareStatement("INSERT INTO Cultura (IDCultura, Email_Investigador, NomeCultura, DescricaoCultura) VALUES ('"+id+ "', '"+mail+ "','"+cultura+ "', '"+descricao+ "')"); 
 			inserir.executeUpdate();
 		}catch(Exception e){
@@ -31,7 +66,7 @@ public class ComandosInvestigador {
 		ArrayList<Cultura> culturas = new ArrayList<>();
 		try {
 			estlig = new EstabeleceLigacao();
-			Connection conn =estlig.getConnection("beatriz", "hey");
+			Connection conn = getConnection();
 			PreparedStatement statement = conn.prepareStatement("SELECT IDCultura, NomeCultura, DescricaoCultura from cultura ");
 			ResultSet result = statement.executeQuery();
 			while (result.next()) {
@@ -48,7 +83,7 @@ public class ComandosInvestigador {
 		ArrayList<Variavel> variaveis = new ArrayList<>();
 		try {
 			estlig = new EstabeleceLigacao();
-			Connection conn =estlig.getConnection("beatriz", "hey");
+			Connection conn = getConnection();
 			PreparedStatement statement = conn.prepareStatement("SELECT IDVariavel, NomeVariavel from variaveis");
 			ResultSet result = statement.executeQuery();
 			while (result.next()) {
@@ -63,7 +98,7 @@ public class ComandosInvestigador {
 	public int insertVariavel(int idVariaveis, int idCultura, double limiteInferior, double limiteSuperior) {
 		estlig = new EstabeleceLigacao();
 		int x = 0;
-		Connection conn =estlig.getConnection("beatriz", "hey");
+		Connection conn = getConnection();
 		try {
 			PreparedStatement query = conn.prepareStatement("INSERT INTO variaveismedidas(IDVariavel_Variaveis, IDCultura_Cultura, LimiteInferior, LimiteSuperior) values ('"+idVariaveis+"', '"+idCultura+"', '"+limiteInferior+"', '"+limiteSuperior+"');");
 			query.executeUpdate();	
@@ -77,7 +112,7 @@ public class ComandosInvestigador {
 	
 	public void insertMedicao(int cultura, int variavel, double valor ) throws SQLException {
 		estlig = new EstabeleceLigacao();
-		Connection conn =estlig.getConnection("beatriz", "hey");
+		Connection conn = getConnection();
 		PreparedStatement query = conn.prepareStatement("insert into medicoes(IDVariaveis_VariaveisMedidas, IDCultura_VariaveisMedidas, ValorMedicao) values ('"+variavel+"', '"+cultura+"', '"+valor+"');");
 		query.executeUpdate();
 	}
@@ -109,7 +144,7 @@ public class ComandosInvestigador {
 		ArrayList<Variavel> medicoes = new ArrayList<>();
 		try {
 			estlig = new EstabeleceLigacao();
-			Connection conn =estlig.getConnection("beatriz", "hey");
+			Connection conn = getConnection();
 			PreparedStatement statement = conn.prepareStatement("select IDVariavel_Variaveis from variaveismedidas where IDCultura_Cultura="+idCultura+";");
 			ResultSet result = statement.executeQuery();
 			while (result.next()) {
@@ -124,4 +159,6 @@ public class ComandosInvestigador {
 		}
 		return medicoes;
 	}
+	
+	
 }
