@@ -6,7 +6,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import pt.iscte.es.main.EstabeleceLigacao;
 import pt.iscte.es.objetos.Cultura;
 import pt.iscte.es.objetos.Variavel;
 
@@ -21,8 +20,7 @@ import java.awt.Color;
 import javax.swing.SwingConstants;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -40,7 +38,6 @@ public class Investigador_GUI extends JFrame {
 	private static final long serialVersionUID = -2695713581214000006L;
 
 	private ItemHandler handler = new ItemHandler();
-	private EstabeleceLigacao link = new EstabeleceLigacao();
 	private ComandosInvestigador cmd = new ComandosInvestigador();
 
 	private JPanel contentPane;
@@ -490,8 +487,7 @@ public class Investigador_GUI extends JFrame {
 	private void logout() {
 		JOptionPane.showMessageDialog(contentPane, "You have sucessfully logged out!");
 		pt.iscte.es.login.Login_GUI login = new pt.iscte.es.login.Login_GUI();
-		cmd.setUsername(null);
-		cmd.setPassword(null);
+		login.apagaFicheiro("info.txt");
 		login.setVisible(true);
 		dispose();
 	}
