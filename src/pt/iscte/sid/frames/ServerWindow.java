@@ -20,6 +20,8 @@ public class ServerWindow {
 
 	private JFrame frmJanelaDeControlo;
 	private JTextField txtTempoParaMigrao;
+	
+	private Thread serverThread;
 
 	/**
 	 * Launch the application.
@@ -42,6 +44,23 @@ public class ServerWindow {
 	public ServerWindow() {
 		initialize();
 		frmJanelaDeControlo.setVisible(true);
+		DefineServerThread();
+	}
+
+	private void DefineServerThread() {
+		serverThread = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					new Servidor();
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+		});
+		
 	}
 
 	/**
@@ -57,22 +76,18 @@ public class ServerWindow {
 		frmJanelaDeControlo.getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		
+		JLabel lblNewLabel = new JLabel("Server Stoped!");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblNewLabel.setBounds(47, 97, 112, 32);
+		panel.add(lblNewLabel);
+		
 		JButton btnStart = new JButton("Start");
 		btnStart.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				EventQueue.invokeLater(new Runnable() {
-					
-					@Override
-					public void run() {
-						try {
-							new Servidor();
-						}catch (Exception e) {
-							e.printStackTrace();
-						}
-						
-					}
-				});
+				serverThread.start();
+				lblNewLabel.setText("Server Running...");
 			}
 		});
 		btnStart.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -100,17 +115,12 @@ public class ServerWindow {
 		lblTempoDefault.setBounds(10, 11, 162, 20);
 		panel.add(lblTempoDefault);
 		
-		JLabel lblNewLabel = new JLabel("Server Stoped!");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblNewLabel.setBounds(47, 97, 112, 32);
-		panel.add(lblNewLabel);
-		
 		JButton btnStop = new JButton("Stop");
 		btnStop.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				serverThread.interrupt();
+				lblNewLabel.setText("Server Stoped!");
 			}
 		});
 		btnStop.setFont(new Font("Tahoma", Font.PLAIN, 14));
