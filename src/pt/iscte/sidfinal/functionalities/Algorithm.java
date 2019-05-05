@@ -148,17 +148,24 @@ public class Algorithm {
 		String date = (String) messageToConfirm.get("dat");
 		String time = (String) messageToConfirm.get("tim");
 		
+		
+		/*
 		Time timeTemp = Time.valueOf(time);
 		@SuppressWarnings("deprecation")
 		Time timeSQL = Time.valueOf((timeTemp.getHours()) + ":" + timeTemp.getMinutes() + ":" + timeTemp.getSeconds()); 
 		
 		String[] tokensDate = date.split("/");
-		//Timestamp dateSQL = Timestamp.valueOf(tokensDate[2] + "-" + tokensDate[1] + "-" + tokensDate[0] + " " + time);
-		Timestamp dateSQL = Timestamp.valueOf(tokensDate[2] + "-" + tokensDate[1] + "-" + tokensDate[0]);
-
+		Timestamp dateSQL = Timestamp.valueOf(tokensDate[2] + "-" + tokensDate[1] + "-" + tokensDate[0] + " " + time);
+		//Timestamp dateSQL = Timestamp.valueOf(tokensDate[2] + "-" + tokensDate[1] + "-" + tokensDate[0]);
+		*/
 		
+		String[] tokensDate = date.split("/");
+		tokensDate[0] = tokensDate[0].length() == 1 ? "0" + tokensDate[0] : tokensDate[0];
+		tokensDate[1] = tokensDate[1].length() == 1 ? "0" + tokensDate[1] : tokensDate[1];
 		
-		messageString = "{" + "\"temperatura\":" + temp + ",\"luminosidade\":"+ lum + ",\"data\":\"" + dateSQL + "\",\"tempo\":\"" + timeSQL + "\"}";
+		date = tokensDate[2] + "-" + tokensDate[1] + "-" + tokensDate[0];
+		
+		messageString = "{" + "\"temperatura\":" + temp + ",\"luminosidade\":"+ lum + ",\"data\":\"" + date + "\",\"tempo\":\"" + time + "\"}";
 	}
 	
 	// Metodo que vai inserir as mensagens comfirmadas e tratadas num array para posteriomente serem enviadas para o MongoDB
