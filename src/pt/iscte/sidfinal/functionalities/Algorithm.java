@@ -132,13 +132,19 @@ public class Algorithm {
 	
 	public void conversion(){
 		
-		Double temperature = null;
-		Integer cell = null;
+		//Double tmp = null;
+		//Integer cell = null;
+		
+		String temp = "";
+		String lum = "";
 		
 		if(!messageToConfirm.get("tmp").equals("") && !Pattern.matches("[a-zA-Z]+", messageToConfirm.get("tmp").toString()))
-			temperature = Double.parseDouble((String) messageToConfirm.get("tmp"));
+			//tmp = Double.parseDouble((String) messageToConfirm.get("tmp"));
+			temp = (String) messageToConfirm.get("tmp");
 		if(!messageToConfirm.get("cell").equals("") && !Pattern.matches("[a-zA-Z]+", messageToConfirm.get("cell").toString()))
-			cell = Integer.parseInt((String) messageToConfirm.get("cell"));
+			//cell = Integer.parseInt((String) messageToConfirm.get("cell"));
+			lum = (String) messageToConfirm.get("cell");
+		
 		String date = (String) messageToConfirm.get("dat");
 		String time = (String) messageToConfirm.get("tim");
 		
@@ -147,9 +153,12 @@ public class Algorithm {
 		Time timeSQL = Time.valueOf((timeTemp.getHours()) + ":" + timeTemp.getMinutes() + ":" + timeTemp.getSeconds()); 
 		
 		String[] tokensDate = date.split("/");
-		Timestamp dateSQL = Timestamp.valueOf(tokensDate[2] + "-" + tokensDate[1] + "-" + tokensDate[0] + " " + time);
+		//Timestamp dateSQL = Timestamp.valueOf(tokensDate[2] + "-" + tokensDate[1] + "-" + tokensDate[0] + " " + time);
+		Timestamp dateSQL = Timestamp.valueOf(tokensDate[2] + "-" + tokensDate[1] + "-" + tokensDate[0]);
+
 		
-		messageString = "{" + "\"temperature\":" + temperature + ",\"cell\":"+ cell + ",\"date\":\"" + dateSQL + "\",\"time\":\"" + timeSQL + "\"}";
+		
+		messageString = "{" + "\"temperatura\":" + temp + ",\"luminosidade\":"+ lum + ",\"data\":\"" + dateSQL + "\",\"tempo\":\"" + timeSQL + "\"}";
 	}
 	
 	// Metodo que vai inserir as mensagens comfirmadas e tratadas num array para posteriomente serem enviadas para o MongoDB

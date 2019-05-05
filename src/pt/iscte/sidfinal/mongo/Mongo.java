@@ -62,7 +62,7 @@ public class Mongo extends Thread{
 				//MongoCredential credential = MongoCredential.createCredential("admin", "MedicoesSensor", "admin".toCharArray());
 				//mongo = new MongoClient(serverAddress, Arrays.asList(credential));
 				mongo = new MongoClient(serverAddress);
-				database = mongo.getDatabase("MedicoesSensor");
+				database = mongo.getDatabase("dbSid");
 				templumi = database.getCollection("templumi");
 				connect = true;
 				start();

@@ -1,8 +1,10 @@
 package pt.iscte.sidfinal.paho;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.UUID;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -13,9 +15,12 @@ import pt.iscte.sidfinal.functionalities.Frame;
 
 public class Paho implements MqttCallback {
 
-	MqttClient client;
-	Frame frame;
-	Algorithm algorithm = new Algorithm(frame);
+	private MqttClient client;
+	private Frame frame;
+	private Algorithm algorithm = new Algorithm(frame);
+	
+	private IMqttMessageListener msgListener;
+	
 	boolean connect = false;
 
 	public Paho(Frame frame){
@@ -26,30 +31,47 @@ public class Paho implements MqttCallback {
 	
 	public void main (Algorithm algorithm) {
 	    this.algorithm = algorithm;
-	    frame.getSubscribeButton().addActionListener(new ActionListener() {
-			
+	    
+	    this.msgListener = new IMqttMessageListener() {
+			@Override
+			public void messageArrived(String topic, MqttMessage message) throws Exception {
+				//algorithm.insertDateTime(message);
+				algorithm.confirm(message);
+				if(algorithm.getSend() == true){
+					algorithm.conversion();
+					algorithm.insertArray(algorithm.getMessageString());
+				}
+				//client.disconnect();
+				//connect = false;
+			}
+		};
+	    
+	    frame.getSubscribeButton().addActionListener(new ActionListener() {	
 			@Override
 			public void actionPerformed(ActionEvent e) {
-			    doDemo();				
+			    ConnectAndSubscribe();				
 			}
 		});
 	}
 	
 	// Metodo para efetuar conexão com o Paho
 
-	public void doDemo() {
+	public void ConnectAndSubscribe() {
 		
 	    try {
 	    	if(!connect){
-		        client = new MqttClient("tcp://iot.eclipse.org:1883", "js-utility-19UPV");
+	    		String publisherId = UUID.randomUUID().toString();
+		        client = new MqttClient("tcp://broker.mqtt-dashboard.com:1883", publisherId);  //usar para testes com /sid_lab_2019_g29_test
+		        //client = new MqttClient("tcp://iot.eclipse.org:1883", publisherId); //usar para testes com /sid_lab_2019_g29_test
 		        client.connect();
-		        //System.out.println("Connection done!");
+		        //System.out.println("Connection Paho done!");
 		        client.setCallback(this);
-		        client.subscribe(frame.getTopicText().getText());
+		        
+		        client.subscribe(frame.getTopicText().getText(), msgListener);
 		        connect = true;
 	    	}
 	    	else{
-		        client.subscribe(frame.getTopicText().getText());
+		        client.subscribe(frame.getTopicText().getText(), msgListener);
 	    	}
 	    } catch (MqttException e) {
 	        e.printStackTrace();
@@ -66,19 +88,7 @@ public class Paho implements MqttCallback {
 	
 	@Override
 	public void messageArrived(String topic, MqttMessage message) throws Exception {   
-		//algorithm.insertDateTime(message);
-		
-		algorithm.confirm(message);
-
-		if(algorithm.getSend() == true){
-			
-			algorithm.conversion();
-			
-			algorithm.insertArray(algorithm.getMessageString());
-
-		}
-		//client.disconnect();
-		connect = false;
+	
 	}
 	
 	@Override

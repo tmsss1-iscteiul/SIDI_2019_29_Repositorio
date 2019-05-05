@@ -36,7 +36,7 @@ public class Frame {
 	private JTextField topicText;
 	private JButton subscribeButton;
 	
-	/* Elementos para utilizar Sybase, textField para escrever ip do servidor MySql e botão para confirmar,
+	/* Elementos para utilizar MySQL, textField para escrever ip do servidor MySql e botão para confirmar,
 	textField para inserir frequencia pretendida (em segundos) e o botão para confirmar */
 	 	
 	private JTextField ipText;
@@ -92,7 +92,7 @@ public class Frame {
 		JLabel paho = new JLabel("Paho");
 		
 		JLabel topic = new JLabel("Topic: ");
-		topicText = new JTextField("foo");
+		topicText = new JTextField("/sid_lab_2019_2");
 		topicText.setPreferredSize(new Dimension(200, 28));
 		subscribeButton = new JButton("Subscribe");
 		
@@ -165,12 +165,12 @@ public class Frame {
 	
 	private void panelMySql(JPanel panel) {
 		
-		JPanel panelSybase = new JPanel();
-		panel.add(panelSybase, BorderLayout.CENTER);
+		JPanel panelMySQL = new JPanel();
+		panel.add(panelMySQL, BorderLayout.CENTER);
 		
 		JPanel panelSecun = new JPanel();
 		panelSecun.setLayout(new BorderLayout());
-		panelSybase.add(panelSecun);
+		panelMySQL.add(panelSecun);
 		JPanel panelSecunCenter = new JPanel();
 		panelSecun.add(panelSecunCenter, BorderLayout.CENTER);
 		
@@ -197,7 +197,7 @@ public class Frame {
 		textAreaMySql.setEditable(false);
 		scrollPaneMySql = new JScrollPane(textAreaMySql);
 		scrollPaneMySql.setPreferredSize(new Dimension(395, 175));
-		panelSybase.add(scrollPaneMySql);
+		panelMySQL.add(scrollPaneMySql);
 		
 		panelSecun.add(MySql, BorderLayout.NORTH);
 		panelSecun.add(scrollPaneMySql, BorderLayout.SOUTH);

@@ -24,7 +24,7 @@ public class MySql extends Thread{
 
 	static String DB_URL = null; 
 
-	// Credenciais (username e password) de acesso ao Sybase
+	// Credenciais (username e password) de acesso ao MySQL
 	
 	static final String USER = "root";
 	static final String PASS = "";
@@ -49,7 +49,7 @@ public class MySql extends Thread{
 		this.mongo = mongo;
 	}
 	
-	// Metodo que vai criar URL para a conexão ao Sybase com o respectivo IP do servidor e a base de dados Sybase
+	// Metodo que vai criar URL para a conexão ao MySQL com o respectivo IP do servidor e a base de dados MySQL
 	
 	public void main() {
 		
@@ -90,7 +90,7 @@ public class MySql extends Thread{
 		}
 	}
 	
-	// Metodo para efetuar a conexão ao Sybase
+	// Metodo para efetuar a conexão ao MySQL
 	
 	public void Connect(){
 		
@@ -130,13 +130,17 @@ public class MySql extends Thread{
 	    }
 	}	
 	
-	/* Metodo para inserir dados no sybase na tabela HumidadeTemperatura por cada dos inserido 
+	/* Metodo para inserir dados no MySQL na tabela HumidadeTemperatura por cada dos inserido 
 	com sucesso e inserido na coleção BackUp do MongoDB */
 	
 	public void addToMySql(){
 		
         String sql;
         String sql2;
+        
+        String sqlSPTemp;
+        String sqlSPLum;
+
         
         if(mongo.getConnect() == true){    
         	
@@ -153,6 +157,7 @@ public class MySql extends Thread{
 					e1.printStackTrace();
 				}
 	
+				/*
 	    		Timestamp date = Timestamp.valueOf(json.get("date").toString());
 	    		Double temperatura = null;
 	    		Long cell = null;
@@ -160,20 +165,40 @@ public class MySql extends Thread{
 	    			temperatura = (Double) json.get("temperature");
 	    		if(json.get("cell") != null)
 	    			cell = (Long) json.get("cell");
-	    		
+	    		*/
+				
+				String temp = "";
+				String lum = "";
+				String date = "";
+				String time = "";
+				
+				if(json.get("temperatura") != null)
+	    			temp = (String) json.get("temperatura");
+	    		if(json.get("luminosidade") != null)
+	    			lum = (String) json.get("luminosidade");
+	    		if(json.get("data") != null)
+	    			date = (String) json.get("data");
+	    		if(json.get("tempo") != null)
+	    			time = (String) json.get("tempo");
+
+				
 	    		mongo.getModelTL().clear();
-	    		sql = "insert into medicoestemperatura values (1, " + temperatura + ", '" + date + "')";
-		        sql2 = "insert into medicoesluminosidade values (1, " + cell + ", '" + date + "')";
-		       // System.out.println(sql);
+	    		sqlSPTemp = "call Insert_Temperatura(" + temp + ", " + date + ", " + time  + ")";
+	    		System.out.println(sqlSPTemp);
+	    				
+	    		/*		
+	    		sql = "insert into medicoestemperatura values (1, " + temp + ", '" + date + "')";
+		        sql2 = "insert into medicoesluminosidade values (1, " + lum + ", '" + date + "')";
+		        System.out.println(sql);
 		        try {
-		        	if(temperatura != null)
+		        	if(temp != null)
 		        		stmt.execute(sql);
-		        	if(cell != null)
+		        	if(lum != null)
 		        		stmt.execute(sql2);
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				*/
 	       	}
 	        
 	    	mongo.getTL().deleteMany(new Document());
