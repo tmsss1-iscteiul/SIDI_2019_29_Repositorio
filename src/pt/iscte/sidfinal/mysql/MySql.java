@@ -153,7 +153,6 @@ public class MySql extends Thread{
 				try {
 					json = (JSONObject) parser.parse(cursor.next().toJson().toString());
 				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 	
@@ -165,26 +164,51 @@ public class MySql extends Thread{
 	    			temperatura = (Double) json.get("temperature");
 	    		if(json.get("cell") != null)
 	    			cell = (Long) json.get("cell");
-	    		*/
+	    		
 				
-				String temp = "";
-				String lum = "";
+				double temp = 0;
+				double lum = 0;
 				String date = "";
 				String time = "";
 				
 				if(json.get("temperatura") != null)
-	    			temp = (String) json.get("temperatura");
+	    			temp = (Double) json.get("temperatura");
 	    		if(json.get("luminosidade") != null)
-	    			lum = (String) json.get("luminosidade");
+	    			lum = (Double) json.get("luminosidade");
 	    		if(json.get("data") != null)
 	    			date = (String) json.get("data");
 	    		if(json.get("tempo") != null)
 	    			time = (String) json.get("tempo");
 
-				
+				*/
 	    		mongo.getModelTL().clear();
-	    		sqlSPTemp = "call Insert_Temperatura(" + temp + ", " + date + ", " + time  + ")";
+	    		sqlSPTemp = "call Insert_Temperatura("
+	    												+ "\'" + (json.get("temperatura") != null ? json.get("temperatura") : null) + "\'"
+	    												+ ", "
+	    												+ "\'" + (json.get("data") != null ? json.get("data") : null) + "\'"
+	    												+ ", "
+	    												+ "\'" + (json.get("tempo") != null ? json.get("tempo"): null) + "\'"
+	    												+ ")";
+	    		
+	    		sqlSPLum = "call Insert_Luminosidade("
+														+ "\'" + (json.get("luminosidade") != null ? json.get("luminosidade") : null) + "\'"
+														+ ", "
+														+ "\'" + (json.get("data") != null ? json.get("data") : null) + "\'"
+														+ ", "
+														+ "\'" + (json.get("tempo") != null ? json.get("tempo"): null) + "\'"
+														+ ")";
+	    		
 	    		System.out.println(sqlSPTemp);
+	    		System.out.println(sqlSPLum);
+	    		
+	    		try {
+		        	if(json.get("temperatura") != null)
+		        		stmt.execute(sqlSPTemp);
+		        	if(json.get("luminosidade") != null)
+		        		stmt.execute(sqlSPLum);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 	    				
 	    		/*		
 	    		sql = "insert into medicoestemperatura values (1, " + temp + ", '" + date + "')";
@@ -199,6 +223,8 @@ public class MySql extends Thread{
 					e.printStackTrace();
 				}
 				*/
+	    		
+	    		
 	       	}
 	        
 	    	mongo.getTL().deleteMany(new Document());

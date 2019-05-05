@@ -139,10 +139,10 @@ public class Algorithm {
 		String lum = "";
 		
 		if(!messageToConfirm.get("tmp").equals("") && !Pattern.matches("[a-zA-Z]+", messageToConfirm.get("tmp").toString()))
-			//tmp = Double.parseDouble((String) messageToConfirm.get("tmp"));
+			//temp = Double.parseDouble((String) messageToConfirm.get("tmp"));
 			temp = (String) messageToConfirm.get("tmp");
 		if(!messageToConfirm.get("cell").equals("") && !Pattern.matches("[a-zA-Z]+", messageToConfirm.get("cell").toString()))
-			//cell = Integer.parseInt((String) messageToConfirm.get("cell"));
+			//lum = Double.parseDouble((String) messageToConfirm.get("cell"));
 			lum = (String) messageToConfirm.get("cell");
 		
 		String date = (String) messageToConfirm.get("dat");
