@@ -1,4 +1,5 @@
 package pt.iscte.sidfinal.functionalities;
+
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.DateFormat;
