@@ -23,6 +23,9 @@ import static com.mongodb.client.model.Filters.*;
 import com.mongodb.client.result.DeleteResult;
 import static com.mongodb.client.model.Updates.*;
 import com.mongodb.client.result.UpdateResult;
+
+import pt.iscte.sid.utils.JsonParser;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,15 +93,26 @@ public class MongoWrite   {
 		
 	}
 
-	public void CreateDoc(String take) {
-		Connect();
+	public void CreateDoc(String message) {
+		MongoCollection<Document> coll = Connect();
+		Document newDoc;
 		
+		String[] stringArray = new JsonParser().SensorMessageParser(message);
 		
+		newDoc = new Document("_id", new ObjectId())
+				.append("temperatura", stringArray[0])
+				.append("luminosidade", stringArray[4])
+				.append("data", stringArray[2]) // aplicar o algoritmo de mudança da data com a Classe DataConverter.java
+				.append("tempo", stringArray[3]);
+		
+		coll.insertOne(newDoc);
 	}
 
-	private void Connect() {
-		
-		
+	private MongoCollection<Document> Connect() {
+		MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
+		MongoDatabase db = mongoClient.getDatabase("dbSid");
+		MongoCollection<Document> coll = db.getCollection("templumi");
+		return coll;
 	}
 
 }	
