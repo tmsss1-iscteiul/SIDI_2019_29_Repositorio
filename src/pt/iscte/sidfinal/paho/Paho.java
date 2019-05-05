@@ -14,37 +14,39 @@ import pt.iscte.sidfinal.functionalities.Algorithm;
 import pt.iscte.sidfinal.functionalities.Frame;
 
 public class Paho implements MqttCallback {
-
 	
 	private Frame frame;
-	private Algorithm algorithm = new Algorithm(frame);
 	
 	private MqttClient client;
 	private IMqttMessageListener msgListener;
 	
 	boolean connect = false;
-
+	
+	int QoS = 0;
+	
+	/**
+	 * 
+	 * @param frame
+	 */
 	public Paho(Frame frame){
 		this.frame = frame;
 	}
 	
-	// Metodo para subscrever topico Paho
 	
+	/**
+	 * Metodo para subscrever topico Paho
+	 * @param algorithm
+	 */
 	public void main (Algorithm algorithm) {
-	    this.algorithm = algorithm;
-	    
 	    //Listener que faz o tratamento das mensagens do Paho
 	    this.msgListener = new IMqttMessageListener() {
 			@Override
 			public void messageArrived(String topic, MqttMessage message) throws Exception {
-				//algorithm.insertDateTime(message);
 				algorithm.confirm(message);
 				if(algorithm.getSend() == true){
 					algorithm.conversion();
 					algorithm.insertArray(algorithm.getMessageString());
 				}
-				//client.disconnect();
-				//connect = false;
 			}
 		};
 	    
@@ -63,9 +65,10 @@ public class Paho implements MqttCallback {
 			}
 		});
 	}
-	
-	// Metodo para efetuar conexão com o Paho
 
+	/**
+	 * Metodo para efetuar conexão com o Paho
+	 */
 	public void ConnectAndSubscribe() {
 		
 	    try {
@@ -77,11 +80,11 @@ public class Paho implements MqttCallback {
 		        //System.out.println("Connection Paho done!");
 		        client.setCallback(this);
 		        
-		        client.subscribe(frame.getTopicText().getText(), msgListener);
+		        client.subscribe(frame.getTopicText().getText(), QoS, msgListener);
 		        connect = true;
 	    	}
 	    	else{
-		        client.subscribe(frame.getTopicText().getText(), msgListener);
+		        client.subscribe(frame.getTopicText().getText(), QoS, msgListener);
 	    	}
 	    } catch (MqttException e) {
 	        e.printStackTrace();
@@ -89,20 +92,23 @@ public class Paho implements MqttCallback {
 	    }
 	}
 
+	/**
+	 * Connection Lost error message
+	 */
 	@Override
 	public void connectionLost(Throwable cause) {
-		System.out.println("Connection lost!");
+		System.out.println("Connection lost! " + "\nCause :" + cause);
 	}
-	
-	// Metodo que recebe a mensagem do Paho
-	
+
+
 	@Override
-	public void messageArrived(String topic, MqttMessage message) throws Exception {   
-	
+	public void messageArrived(String topic, MqttMessage message) throws Exception {
+		// TODO Auto-generated method stub
 	}
-	
+
+
 	@Override
 	public void deliveryComplete(IMqttDeliveryToken token) {
-	    // TODO Auto-generated method stub
+		// TODO Auto-generated method stub
 	}
 }

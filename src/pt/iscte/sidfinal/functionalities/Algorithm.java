@@ -171,7 +171,6 @@ public class Algorithm {
 	// Metodo que vai inserir as mensagens comfirmadas e tratadas num array para posteriomente serem enviadas para o MongoDB
 	
 	public void insertArray(String messageString){
-		
 		JSONParser parser = new JSONParser();
 		JSONObject messageJson = new JSONObject();
 		try {
