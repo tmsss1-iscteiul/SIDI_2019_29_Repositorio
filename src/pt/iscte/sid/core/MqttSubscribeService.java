@@ -20,7 +20,8 @@ public class MqttSubscribeService {
 		try {
 			String publisherId = UUID.randomUUID().toString();
 			
-			MqttDefaultFilePersistence filePersistence = new MqttDefaultFilePersistence("/LostPahoMessages/");
+			String tempDir = System.getProperty("java.io.tmpdir");			
+			MqttDefaultFilePersistence filePersistence = new MqttDefaultFilePersistence(tempDir);
 			
 			MqttClient subscriber = new MqttClient("tcp://broker.mqtt-dashboard.com:1883", publisherId, filePersistence);
 			

@@ -1,11 +1,36 @@
 package pt.iscte.sid.mongodb;
 
 import com.mongodb.*;
+
 import java.util.*;
 import java.net.UnknownHostException;
 
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import com.mongodb.ServerAddress;
+
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.MongoCollection;
+
+import org.bson.Document;
+import org.bson.types.ObjectId;
+
+import java.util.Arrays;
+import com.mongodb.Block;
+
+import com.mongodb.client.MongoCursor;
+import static com.mongodb.client.model.Filters.*;
+import com.mongodb.client.result.DeleteResult;
+import static com.mongodb.client.model.Updates.*;
+import com.mongodb.client.result.UpdateResult;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.print.Doc;
+
 public class MongoWrite   {
 	public static void main(String[] args) {
+		/*
 		int i;
 		MongoClient mongoClient = null;
 		MongoClient mongoClient1 = new MongoClient( 
@@ -22,11 +47,58 @@ public class MongoWrite   {
 			i++;
 			try{Thread.sleep(5000);} catch (InterruptedException  e) {Thread.currentThread().interrupt();}
 		}
-		mongoClient1.close();		
+		mongoClient1.close();	
+		*/
+				
+		MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
+		MongoDatabase db = mongoClient.getDatabase("dbSid");
+		MongoCollection<Document> coll = db.getCollection("templumi");
+		
+		/*
+		//mostra o primeiro documento
+		Document myDoc = coll.find().first();
+		System.out.println(myDoc.toJson());
+		
+		//mostra todos os documentos
+		MongoCursor<Document> cursor = coll.find().iterator();
+		try {
+		    while (cursor.hasNext()) {
+		        System.out.println(cursor.next().toJson());
+		    }
+		} finally {
+		    cursor.close();
+		}
+		*/
+		
+		Document newDoc = new Document("_id", new ObjectId())
+										.append("temperatura", "25.40")
+										.append("luminosidade", "2000")
+										.append("data", "2019-05-05")
+										.append("tempo", "17:32:32");
+		coll.insertOne(newDoc);
+		
+		
+		
+		MongoCursor<Document> cursor = coll.find().iterator();
+		try {
+		    while (cursor.hasNext()) {
+		        System.out.println(cursor.next().toJson());
+		    }
+		} finally {
+		    cursor.close();
+		}
+		
 	}
 
 	public void CreateDoc(String take) {
+		Connect();
 		
 		
 	}
+
+	private void Connect() {
+		
+		
+	}
+
 }	

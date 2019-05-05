@@ -22,6 +22,8 @@ public class ServerWindow {
 	private JTextField txtTempoParaMigrao;
 	
 	private Thread serverThread;
+	
+	private Servidor servidor;
 
 	/**
 	 * Launch the application.
@@ -53,7 +55,8 @@ public class ServerWindow {
 			@Override
 			public void run() {
 				try {
-					new Servidor();
+					servidor = new Servidor();
+					servidor.StartServer();
 				}catch (Exception e) {
 					e.printStackTrace();
 				}

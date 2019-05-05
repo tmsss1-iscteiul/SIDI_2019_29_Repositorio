@@ -26,9 +26,6 @@ public class Servidor {
 		
 		running = true;
 
-		GetSensorMessages();
-		StoreMessageInMongo();
-		
 		/*
 		while(true) {
 			try {
@@ -41,10 +38,15 @@ public class Servidor {
 		*/
 	}
 	
+	public void StartServer() throws InterruptedException {
+		GetSensorMessages();
+		StoreMessageInMongo();
+	}
+	
 	/**
 	 * 
 	 */
-	private void StoreMessageInMongo() {
+	private void StoreMessageInMongo() throws InterruptedException{
 		while(running) {
 			executor.execute(new Runnable() {
 				
@@ -63,8 +65,12 @@ public class Servidor {
 	/**
 	 * Connects to Paho server and keeps storing all messages in messageQueue
 	 */
-	public void GetSensorMessages() {
+	public void GetSensorMessages() throws InterruptedException{
 		new MqttSubscribeService().GetMessages(messageQueue);
+		
+		//comentar abaixo se o sensor funcionar bem !!
+		InsertDummyMessages dummyMessages = new InsertDummyMessages();
+		dummyMessages.insertMessages(messageQueue);
 	}
 	
 	
