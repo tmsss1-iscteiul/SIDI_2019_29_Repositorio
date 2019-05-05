@@ -1,6 +1,5 @@
 package pt.iscte.sid.core;
 
-import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
@@ -11,17 +10,19 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence;
 
 public class MqttSubscribeService {
 
-	private String returnMessage;
-	
 	public MqttSubscribeService() {}
 	
 	public void GetMessages(BlockingQueue<String> messageQueue) {
 		try {
 			String publisherId = UUID.randomUUID().toString();
-			MqttClient subscriber = new MqttClient("tcp://broker.mqtt-dashboard.com:1883", publisherId);
+			
+			MqttDefaultFilePersistence filePersistence = new MqttDefaultFilePersistence("/LostPahoMessages/");
+			
+			MqttClient subscriber = new MqttClient("tcp://broker.mqtt-dashboard.com:1883", publisherId, filePersistence);
 			
 			MqttConnectOptions options = new MqttConnectOptions();
 			options.setAutomaticReconnect(true);
@@ -29,8 +30,6 @@ public class MqttSubscribeService {
 			options.setConnectionTimeout(10);
 			subscriber.connect(options);
 			System.out.println("Connected to Sensor.. Receiving messages...");
-			
-			returnMessage = "";
 			
 			IMqttMessageListener msgListener = new IMqttMessageListener() {
 				
@@ -41,7 +40,6 @@ public class MqttSubscribeService {
 			};
 			
 			subscriber.subscribe("/sid_lab_2019_2", msgListener);
-
 			
 		} catch (MqttException e) {
 			e.printStackTrace();

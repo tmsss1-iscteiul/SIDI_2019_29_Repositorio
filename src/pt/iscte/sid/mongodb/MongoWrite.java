@@ -24,4 +24,9 @@ public class MongoWrite   {
 		}
 		mongoClient1.close();		
 	}
+
+	public void CreateDoc(String take) {
+		
+		
+	}
 }	

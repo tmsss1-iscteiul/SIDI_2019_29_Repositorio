@@ -86,6 +86,7 @@ public class ServerWindow {
 		btnStart.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				DefineServerThread();
 				serverThread.start();
 				lblNewLabel.setText("Server Running...");
 			}
