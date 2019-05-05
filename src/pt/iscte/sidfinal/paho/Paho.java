@@ -15,10 +15,11 @@ import pt.iscte.sidfinal.functionalities.Frame;
 
 public class Paho implements MqttCallback {
 
-	private MqttClient client;
+	
 	private Frame frame;
 	private Algorithm algorithm = new Algorithm(frame);
 	
+	private MqttClient client;
 	private IMqttMessageListener msgListener;
 	
 	boolean connect = false;
@@ -32,6 +33,7 @@ public class Paho implements MqttCallback {
 	public void main (Algorithm algorithm) {
 	    this.algorithm = algorithm;
 	    
+	    //Listener que faz o tratamento das mensagens do Paho
 	    this.msgListener = new IMqttMessageListener() {
 			@Override
 			public void messageArrived(String topic, MqttMessage message) throws Exception {
@@ -49,6 +51,14 @@ public class Paho implements MqttCallback {
 	    frame.getSubscribeButton().addActionListener(new ActionListener() {	
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				try {
+					if(client != null) {
+						client.disconnect();
+						connect = false;
+					}
+				} catch (MqttException error) {
+					error.printStackTrace();
+				}
 			    ConnectAndSubscribe();				
 			}
 		});
