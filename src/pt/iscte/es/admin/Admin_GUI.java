@@ -41,22 +41,22 @@ public class Admin_GUI extends JFrame {
 	private JTextField textField_Email_pni;
 	private JButton btn_InserirInvestigador_pni;
 	private JTextArea textArea_CategoriaProfissional_pni;
-	
+
 	private JPanel verInvestigadoresPanel;
 	private JTextField textField_NomeInvestigador_pvi;
 	private JButton btn_AlterarInvestigador_pvi;
 	private JButton btnEliminarInvestigador_pvi;
-	
+
 	private JPanel criarVariavelPanel;
 	private JTextField textField_NomeVariavel_pcv;
 	private JButton btn_InserirVariavel_pcv;
-	
+
 	private JPanel verVariaveisPanel;
 	private JTextField textField_Variavel_pvv;
 	private JButton btn_AlterarVariavel_pvv;
 	private JButton btn_EliminarVariavel_pvv;
 	private AdminSQL admin = new AdminSQL();
-	
+
 	private Choice comboBox_Email_pvi;
 	private JTextArea textArea_CategoriaProfissional_pvi;
 	private ItemHandler handler = new ItemHandler();
@@ -117,14 +117,14 @@ public class Admin_GUI extends JFrame {
 		centerPanel.setBounds(172, 52, 378, 248);
 		centerPanel.setLayout(null);
 		contentPane.add(centerPanel);
-		
+
 		panel_CriarInvestigador();
 		panel_VerInvestigador();
 		panel_CriarVariavel();
 		panel_VerVariavel();
-		
+
 		addButtonsActions();
-		
+
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setOrientation(SwingConstants.VERTICAL);
 		separator_1.setForeground(Color.BLACK);
@@ -259,7 +259,7 @@ public class Admin_GUI extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		comboBox_Email_pvi.addItemListener(handler);
 		comboBox_Email_pvi.setBounds(110, 20, 230, 25);
 		verInvestigadoresPanel.add(comboBox_Email_pvi);
@@ -323,7 +323,7 @@ public class Admin_GUI extends JFrame {
 		comboBox_Variavel_pvv = new Choice();
 		comboBox_Variavel_pvv.setBackground(Color.WHITE);
 		comboBox_Variavel_pvv.addItemListener(handler);
-		
+
 		try {
 			for(Variavel variavel : cmd.getVariaveis()) {
 				comboBox_Variavel_pvv.add(variavel.getNome());	
@@ -332,7 +332,7 @@ public class Admin_GUI extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		comboBox_Variavel_pvv.setBounds(110, 40, 180, 25);
 		verVariaveisPanel.add(comboBox_Variavel_pvv);
 
@@ -378,7 +378,7 @@ public class Admin_GUI extends JFrame {
 				}
 			}
 		});
-		
+
 		btn_AlterarInvestigador_pvi.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -391,7 +391,7 @@ public class Admin_GUI extends JFrame {
 				JOptionPane.showMessageDialog(null, "Investigador alterado com sucesso.");
 			}
 		});
-		
+
 		btnEliminarInvestigador_pvi.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -399,7 +399,7 @@ public class Admin_GUI extends JFrame {
 				JOptionPane.showMessageDialog(null, "Investigador eliminado com sucesso.");
 			}
 		});
-		
+
 		btn_InserirVariavel_pcv.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -427,14 +427,14 @@ public class Admin_GUI extends JFrame {
 			}
 		});
 	}
-	
+
 	private void logout() {
 		JOptionPane.showMessageDialog(null, "You have sucessfully logged out!");
 		Login_GUI login = new Login_GUI();
 		login.setVisible(true);
 		dispose();
 	}
-	
+
 	private class ItemHandler implements ItemListener {
 		@Override
 		public void itemStateChanged(ItemEvent evento) {
@@ -460,5 +460,5 @@ public class Admin_GUI extends JFrame {
 		}
 
 	}
-	
+
 }

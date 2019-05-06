@@ -50,7 +50,7 @@ public class InvestigadorSQL {
 		}
 		return null;
 	}
-	
+
 	public int idCultura() throws IOException, SQLException {
 		int x = 0;
 		readConfig("info.txt");
@@ -64,20 +64,20 @@ public class InvestigadorSQL {
 			System.out.println("Erro ao tentar encontrar último ID da tabela cultura");
 		}
 		return x;
-		
+
 	}
-	
+
 	public String buscaEmail () throws IOException, SQLException  { 
 		readConfig("info.txt");
 		Connection conn = getConnection(username, password);
 		String mail ="";
-		
+
 		PreparedStatement statement = conn.prepareStatement("SELECT Email FROM investigador WHERE Email LIKE ?");
-		
+
 		statement.setString(1, username + "@" + "%");
 		ResultSet result = statement.executeQuery();
 		while (result.next()) {
-		mail = result.getString(1);
+			mail = result.getString(1);
 		}
 		if(mail.equals("")) {
 			System.out.println("Erro ao tentar encontrar o e-mail do Investigador");
@@ -86,12 +86,12 @@ public class InvestigadorSQL {
 	}
 
 	public void inserirCultura(String cultura, String descricao) throws IOException, SQLException {	
-			readConfig("info.txt");
-			String mail= buscaEmail();
-			Connection conn = getConnection(username, password);
-			int idCultura = idCultura() +1;
-			PreparedStatement query = conn.prepareStatement("INSERT INTO cultura(IDCultura, Email_Investigador, NomeCultura, DescricaoCultura) values ('"+idCultura+"', '"+mail+"', '"+cultura+"', '"+descricao+"');");
-			query.executeUpdate();
+		readConfig("info.txt");
+		String mail= buscaEmail();
+		Connection conn = getConnection(username, password);
+		int idCultura = idCultura() +1;
+		PreparedStatement query = conn.prepareStatement("INSERT INTO cultura(IDCultura, Email_Investigador, NomeCultura, DescricaoCultura) values ('"+idCultura+"', '"+mail+"', '"+cultura+"', '"+descricao+"');");
+		query.executeUpdate();
 	}
 
 	public ArrayList<Cultura>  getCultura() throws Exception {
@@ -192,7 +192,7 @@ public class InvestigadorSQL {
 		}
 		return medicoes;
 	}
-	
+
 	public void updateCultura(String nomeAntigo, String nomeFuturo, String descricao) {
 		Connection conn = getConnection(username, password);
 		PreparedStatement statement;

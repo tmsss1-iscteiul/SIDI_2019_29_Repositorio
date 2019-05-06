@@ -365,7 +365,7 @@ public class Investigador_GUI extends JFrame {
 		inserirMedicoesPanel.add(comboBox_Cultura_pim);
 
 		comboBox_Cultura_pim.addItemListener(handler);
-		
+
 		JLabel lblVariavel_pim = new JLabel("Variavel:");
 		lblVariavel_pim.setBounds(40, 80, 70, 25);
 		inserirMedicoesPanel.add(lblVariavel_pim);
@@ -485,8 +485,8 @@ public class Investigador_GUI extends JFrame {
 		}
 
 	}
-	
-	
+
+
 
 	private void logout() {
 		JOptionPane.showMessageDialog(contentPane, "You have sucessfully logged out!");
