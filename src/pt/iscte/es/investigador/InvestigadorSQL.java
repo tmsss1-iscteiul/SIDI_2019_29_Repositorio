@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import pt.iscte.es.objetos.Cultura;
 import pt.iscte.es.objetos.Variavel;
 
-public class ComandosInvestigador {
+public class InvestigadorSQL {
 	private String username;
 	private String password;
 

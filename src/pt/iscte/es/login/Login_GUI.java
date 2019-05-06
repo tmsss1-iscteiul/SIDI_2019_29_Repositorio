@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import pt.iscte.es.investigador.ComandosInvestigador;
+import pt.iscte.es.investigador.InvestigadorSQL;
 import pt.iscte.es.investigador.Investigador_GUI;
 
 import java.awt.event.ActionListener;
@@ -37,7 +37,7 @@ public class Login_GUI extends JFrame {
 	private JTextField password;
 	private String username;
 	private String pass;
-	private ComandosInvestigador cmd = new ComandosInvestigador();
+	private InvestigadorSQL cmd = new InvestigadorSQL();
 
 
 	/**

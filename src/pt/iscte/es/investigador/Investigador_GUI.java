@@ -38,7 +38,7 @@ public class Investigador_GUI extends JFrame {
 	private static final long serialVersionUID = -2695713581214000006L;
 
 	private ItemHandler handler = new ItemHandler();
-	private ComandosInvestigador cmd = new ComandosInvestigador();
+	private InvestigadorSQL cmd = new InvestigadorSQL();
 
 	private JPanel contentPane;
 	private JPanel centerPanel;
