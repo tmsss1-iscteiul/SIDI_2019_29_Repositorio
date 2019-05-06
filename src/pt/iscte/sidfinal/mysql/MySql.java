@@ -58,7 +58,7 @@ public class MySql extends Thread{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 		
-				DB_URL = "jdbc:mysql://" + frame.getIPText().getText() + ":3306/db_mysql_origem";
+				DB_URL = "jdbc:mysql://" + frame.getIPText().getText() + "/db_mysql_origem";
 				start();
 			}
 		});

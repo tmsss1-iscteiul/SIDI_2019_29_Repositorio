@@ -177,7 +177,7 @@ public class Frame {
 		JLabel MySql = new JLabel("MySql");
 		
 		JLabel ipLabel = new JLabel("IP: ");
-		ipText = new JTextField("localhost");
+		ipText = new JTextField("localhost:3306");
 		ipText.setPreferredSize(new Dimension(125, 28));
 		ipButton = new JButton("OK");
 		JLabel frequency = new JLabel("Frequency: ");
