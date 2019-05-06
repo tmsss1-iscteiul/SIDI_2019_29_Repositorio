@@ -313,9 +313,16 @@ public class Investigador_GUI extends JFrame {
 		comboBox_Cultura_pav = new Choice();
 		comboBox_Cultura_pav.addItemListener(handler);
 		comboBox_Cultura_pav.setBackground(Color.WHITE);
-		adicionaNomeCulturaChoice(comboBox_Cultura_pav);
 		comboBox_Cultura_pav.setBounds(110, 40, 180, 25);
 		atribuirVariavelPanel.add(comboBox_Cultura_pav);
+		comboBox_Cultura_pav.add("Culturas...");
+		try {
+			for(Cultura c : cmd.getCulturasSemVariaveis()) {
+				comboBox_Cultura_pav.add(c.getNome());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		JLabel lblVariavel_pav = new JLabel("Variavel:");
 		lblVariavel_pav.setBounds(40, 80, 70, 25);
@@ -326,7 +333,7 @@ public class Investigador_GUI extends JFrame {
 		comboBox_Variavel_pav.setBounds(110, 80, 180, 25);
 		//adicionaNomeVariavelChoice(comboBox_Variavel_pav);
 		atribuirVariavelPanel.add(comboBox_Variavel_pav);
-		
+
 
 		JLabel lblLimiteInferior_pav = new JLabel("Limite Inferior:");
 		lblLimiteInferior_pav.setBounds(40, 120, 100, 25);
@@ -437,6 +444,7 @@ public class Investigador_GUI extends JFrame {
 					double valorLimiteInf = Double.parseDouble(limInf);
 					double valorLimiteSup = Double.parseDouble(limSup);
 					if(cmd.insertVariavel(idVariavel, idCultura, valorLimiteInf, valorLimiteSup) == 1) {
+						comboBox_Variavel_pav.removeAll();
 						JOptionPane.showMessageDialog(null, "Variavel atribuída com sucesso a cultura.");
 					}else {
 						JOptionPane.showMessageDialog(null, "Variavel não atribuída.");
@@ -484,19 +492,31 @@ public class Investigador_GUI extends JFrame {
 						textField_NomeCultura_pvc.setEditable(false);
 					}
 				} if(evento.getSource() == comboBox_Cultura_pim) {
-					int id = cmd.buscaIDCultura(comboBox_Cultura_pim.getSelectedItem());
-					comboBox_Variavel_pim.removeAll();
-					for(Variavel v : cmd.getVariavelEspecifica(id)) {
-						comboBox_Variavel_pim.add(v.getNome());
+					if(comboBox_Cultura_pim.getSelectedItem().equals("Culturas...")) {
+						comboBox_Variavel_pim.removeAll();
+						textField_ValorMedicao_pim.setEditable(false);
+					}else {
+						int id = cmd.buscaIDCultura(comboBox_Cultura_pim.getSelectedItem());
+						comboBox_Variavel_pim.removeAll();
+						textField_ValorMedicao_pim.setEditable(true);
+						for(Variavel v : cmd.getVariavelEspecifica(id)) {
+							comboBox_Variavel_pim.add(v.getNome());
+						}
 					}
 				}
 				if(evento.getSource() == comboBox_Cultura_pav) {
 					comboBox_Variavel_pav.removeAll();
-					ArrayList<Variavel> variaveis = cmd.getVariaveisAssociadasCultura(cmd.buscaIDCultura(comboBox_Cultura_pav.getSelectedItem()));
-					for(Variavel v : variaveis) {
-						comboBox_Variavel_pav.add(v.getNome());
+					if(comboBox_Cultura_pav.getSelectedItem().equals("Culturas...")) {
+						textField_LimiteInferior_pav.setEditable(false);
+						textField_LimiteSuperior_pav.setEditable(false);
+					}else {
+						textField_LimiteInferior_pav.setEditable(true);
+						textField_LimiteSuperior_pav.setEditable(true);
+						for(Variavel v : cmd.getVariaveis()) {
+							comboBox_Variavel_pav.add(v.getNome());
+						}
 					}
-					
+
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -504,7 +524,7 @@ public class Investigador_GUI extends JFrame {
 		}
 
 	}
-//
+	//
 
 
 	private void logout() {

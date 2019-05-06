@@ -142,6 +142,21 @@ public class InvestigadorSQL {
 		}
 		return variaveis;
 	}
+	
+	public ArrayList<Cultura> getCulturasSemVariaveis() throws Exception {
+		ArrayList<Cultura> culturas = new ArrayList<>();
+		Connection conn = estabeleceLigacao();
+		PreparedStatement statement = conn.prepareStatement("SELECT IDCultura from cultura where IDCultura not in (select IDCultura_Cultura from variaveismedidas )");
+		ResultSet result = statement.executeQuery();
+		while(result.next()) {
+			for (Cultura cultura : getCultura()) {
+				if(cultura.getID() == result.getInt("IDCultura"))
+				culturas.add(cultura);
+				
+				}
+			}
+		return culturas;
+	} 
 
 	public int insertVariavel(int idVariaveis, int idCultura, double limiteInferior, double limiteSuperior) throws IOException {
 		int x = 0;
