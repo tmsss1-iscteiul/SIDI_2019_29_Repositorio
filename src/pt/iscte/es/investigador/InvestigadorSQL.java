@@ -50,7 +50,7 @@ public class InvestigadorSQL {
 		}
 		return null;
 	}
-	
+
 	public Connection estabeleceLigacao() throws IOException {
 		readConfig("info.txt");
 		Connection conn = getConnection(username, password);
@@ -99,7 +99,9 @@ public class InvestigadorSQL {
 		ArrayList<Cultura> culturas = new ArrayList<>();
 		try {
 			Connection conn = estabeleceLigacao();
-			PreparedStatement statement = conn.prepareStatement("SELECT IDCultura, NomeCultura, DescricaoCultura from cultura ");
+			System.out.println(buscaEmail());
+			PreparedStatement statement = conn.prepareStatement("SELECT IDCultura, NomeCultura, DescricaoCultura from cultura WHERE Email_Investigador = ? ");
+			statement.setString(1, buscaEmail());
 			ResultSet result = statement.executeQuery();
 			while (result.next()) {
 				culturas.add(new Cultura (result.getInt("IDCultura"), result.getString("NomeCultura"), result.getString("DescricaoCultura")));
@@ -121,6 +123,22 @@ public class InvestigadorSQL {
 			}
 		}catch(Exception e) {
 			System.out.println(e);
+		}
+		return variaveis;
+	}
+
+	public ArrayList<Variavel> getVariaveisAssociadasCultura(int idCultura) throws Exception {
+		ArrayList<Variavel> variaveis = new ArrayList<>();
+		Connection conn = estabeleceLigacao();
+		PreparedStatement statement = conn.prepareStatement("SELECT IDVariavel_Variaveis, IDCultura_Cultura from variaveismedidas where IDCultura_Cultura = ?");
+		statement.setInt(1, idCultura);
+		ResultSet result = statement.executeQuery();
+		while(result.next()) {
+			for (Variavel v : getVariaveis()) {
+				if(v.getID() == result.getInt("IDVariavel_Variaveis")) {
+					variaveis.add(v);
+				}
+			}
 		}
 		return variaveis;
 	}

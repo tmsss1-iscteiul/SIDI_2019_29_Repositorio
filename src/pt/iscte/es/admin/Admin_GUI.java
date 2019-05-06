@@ -251,6 +251,7 @@ public class Admin_GUI extends JFrame {
 		verInvestigadoresPanel.add(lblEmail_pvi);
 
 		comboBox_Email_pvi = new Choice();
+		comboBox_Email_pvi.add("E-mails...");
 		try {
 			for(Investigador inv : admin.getInvestigadores()) {
 				comboBox_Email_pvi.add(inv.getEmail());
@@ -323,7 +324,8 @@ public class Admin_GUI extends JFrame {
 		comboBox_Variavel_pvv = new Choice();
 		comboBox_Variavel_pvv.setBackground(Color.WHITE);
 		comboBox_Variavel_pvv.addItemListener(handler);
-
+		
+		comboBox_Variavel_pvv.add("Variáveis...");
 		try {
 			for(Variavel variavel : cmd.getVariaveis()) {
 				comboBox_Variavel_pvv.add(variavel.getNome());	
@@ -440,16 +442,30 @@ public class Admin_GUI extends JFrame {
 		public void itemStateChanged(ItemEvent evento) {
 			try {
 				if(evento.getSource() == comboBox_Email_pvi) {
+					if(comboBox_Email_pvi.getSelectedItem().equals("E-mails...")) {
+						textField_NomeInvestigador_pvi.setText("");
+						textArea_CategoriaProfissional_pvi.setText("");	
+						textField_NomeInvestigador_pvi.setEditable(false);
+						textArea_CategoriaProfissional_pvi.setEditable(false);
+						
+					}
 					for(Investigador inv : admin.getInvestigadores()) {
 						if(comboBox_Email_pvi.getSelectedItem().equals(inv.getEmail())) {
+							textField_NomeInvestigador_pvi.setEditable(true);
+							textArea_CategoriaProfissional_pvi.setEditable(true);
 							textField_NomeInvestigador_pvi.setText(inv.getNome());
 							textArea_CategoriaProfissional_pvi.setText(inv.getCategoriaProfissional());	
 						}
 					}
 				}
 				if(evento.getSource() == comboBox_Variavel_pvv) {
+					if(comboBox_Variavel_pvv.getSelectedItem().equals("Variáveis...")) {
+						textField_Variavel_pvv.setText("");
+						textField_Variavel_pvv.setEditable(false);
+					}
 					for(Variavel variavel : cmd.getVariaveis()) {
 						if(comboBox_Variavel_pvv.getSelectedItem().equals(variavel.getNome())) {
+							textField_Variavel_pvv.setEditable(true);
 							textField_Variavel_pvv.setText(variavel.getNome());
 						}
 					}

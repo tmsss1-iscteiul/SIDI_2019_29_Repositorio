@@ -86,6 +86,7 @@ public class Investigador_GUI extends JFrame {
 	}
 
 	private void adicionaNomeCulturaChoice(Choice boxCultura) {
+		boxCultura.add("Culturas...");
 		try {
 			ArrayList<Cultura> culturas = cmd.getCultura();
 			for(Cultura cultura : culturas ) {
@@ -310,6 +311,7 @@ public class Investigador_GUI extends JFrame {
 		atribuirVariavelPanel.add(lblCultura_pav);
 
 		comboBox_Cultura_pav = new Choice();
+		comboBox_Cultura_pav.addItemListener(handler);
 		comboBox_Cultura_pav.setBackground(Color.WHITE);
 		adicionaNomeCulturaChoice(comboBox_Cultura_pav);
 		comboBox_Cultura_pav.setBounds(110, 40, 180, 25);
@@ -322,8 +324,9 @@ public class Investigador_GUI extends JFrame {
 		comboBox_Variavel_pav = new Choice();
 		comboBox_Variavel_pav.setBackground(Color.WHITE);
 		comboBox_Variavel_pav.setBounds(110, 80, 180, 25);
-		adicionaNomeVariavelChoice(comboBox_Variavel_pav);
+		//adicionaNomeVariavelChoice(comboBox_Variavel_pav);
 		atribuirVariavelPanel.add(comboBox_Variavel_pav);
+		
 
 		JLabel lblLimiteInferior_pav = new JLabel("Limite Inferior:");
 		lblLimiteInferior_pav.setBounds(40, 120, 100, 25);
@@ -468,9 +471,17 @@ public class Investigador_GUI extends JFrame {
 				if(evento.getSource() == comboBox_Cultura_pvc) {
 					for(Cultura cultura : cmd.getCultura()) {
 						if(comboBox_Cultura_pvc.getSelectedItem().equals(cultura.getNome())) {
+							textArea_DescricaoCultura_pvc.setEditable(true);
+							textField_NomeCultura_pvc.setEditable(true);
 							textArea_DescricaoCultura_pvc.setText(cultura.getDescricao());
 							textField_NomeCultura_pvc.setText(cultura.getNome());	
 						}
+					}
+					if(comboBox_Cultura_pvc.getSelectedItem().equals("Culturas...")) {			
+						textField_NomeCultura_pvc.setText("");
+						textArea_DescricaoCultura_pvc.setText("");
+						textArea_DescricaoCultura_pvc.setEditable(false);
+						textField_NomeCultura_pvc.setEditable(false);
 					}
 				} if(evento.getSource() == comboBox_Cultura_pim) {
 					int id = cmd.buscaIDCultura(comboBox_Cultura_pim.getSelectedItem());
@@ -478,6 +489,14 @@ public class Investigador_GUI extends JFrame {
 					for(Variavel v : cmd.getVariavelEspecifica(id)) {
 						comboBox_Variavel_pim.add(v.getNome());
 					}
+				}
+				if(evento.getSource() == comboBox_Cultura_pav) {
+					
+					ArrayList<Variavel> variaveis = cmd.getVariaveisAssociadasCultura(cmd.buscaIDCultura(comboBox_Cultura_pav.getSelectedItem()));
+					for(Variavel v : variaveis) {
+						comboBox_Variavel_pav.add(v.getNome());
+					}
+					
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
