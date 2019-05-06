@@ -137,7 +137,7 @@ public class InvestigadorSQL {
 			for (Variavel v : getVariaveis()) {
 				if(v.getID() == result.getInt("IDVariavel_Variaveis")) {
 					variaveis.add(v);
-				}
+				}//
 			}
 		}
 		return variaveis;

@@ -68,7 +68,7 @@ public class AdminSQL {
 		}
 	}
 	
-	//O ID das variaveis não é AI, criar um field para o ID da variavel
+	//O ID das variaveis não é AI, criar um field para o ID da variavel 
 	public void insertVariavel(String variavel) throws SQLException {
 		Connection conn = cmd.getConnection("beatriz", "hey");
 		PreparedStatement statement = conn.prepareStatement("INSERT INTO variaveis (IDVariavel, NomeVariavel) values (99, '"+variavel+"');");

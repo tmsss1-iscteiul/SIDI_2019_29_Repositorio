@@ -504,7 +504,7 @@ public class Investigador_GUI extends JFrame {
 		}
 
 	}
-
+//
 
 
 	private void logout() {
