@@ -491,7 +491,7 @@ public class Investigador_GUI extends JFrame {
 					}
 				}
 				if(evento.getSource() == comboBox_Cultura_pav) {
-					
+					comboBox_Variavel_pav.removeAll();
 					ArrayList<Variavel> variaveis = cmd.getVariaveisAssociadasCultura(cmd.buscaIDCultura(comboBox_Cultura_pav.getSelectedItem()));
 					for(Variavel v : variaveis) {
 						comboBox_Variavel_pav.add(v.getNome());
