@@ -50,11 +50,16 @@ public class InvestigadorSQL {
 		}
 		return null;
 	}
+	
+	public Connection estabeleceLigacao() throws IOException {
+		readConfig("info.txt");
+		Connection conn = getConnection(username, password);
+		return conn;
+	}
 
 	public int idCultura() throws IOException, SQLException {
 		int x = 0;
-		readConfig("info.txt");
-		Connection conn = getConnection(username, password);
+		Connection conn = estabeleceLigacao();
 		PreparedStatement statement = conn.prepareStatement("SELECT max(IDCultura) from cultura");
 		ResultSet result = statement.executeQuery();
 		while (result.next()) {
@@ -68,12 +73,9 @@ public class InvestigadorSQL {
 	}
 
 	public String buscaEmail () throws IOException, SQLException  { 
-		readConfig("info.txt");
-		Connection conn = getConnection(username, password);
+		Connection conn = estabeleceLigacao();
 		String mail ="";
-
 		PreparedStatement statement = conn.prepareStatement("SELECT Email FROM investigador WHERE Email LIKE ?");
-
 		statement.setString(1, username + "@" + "%");
 		ResultSet result = statement.executeQuery();
 		while (result.next()) {
@@ -86,9 +88,8 @@ public class InvestigadorSQL {
 	}
 
 	public void inserirCultura(String cultura, String descricao) throws IOException, SQLException {	
-		readConfig("info.txt");
+		Connection conn = estabeleceLigacao();
 		String mail= buscaEmail();
-		Connection conn = getConnection(username, password);
 		int idCultura = idCultura() +1;
 		PreparedStatement query = conn.prepareStatement("INSERT INTO cultura(IDCultura, Email_Investigador, NomeCultura, DescricaoCultura) values ('"+idCultura+"', '"+mail+"', '"+cultura+"', '"+descricao+"');");
 		query.executeUpdate();
@@ -97,26 +98,22 @@ public class InvestigadorSQL {
 	public ArrayList<Cultura>  getCultura() throws Exception {
 		ArrayList<Cultura> culturas = new ArrayList<>();
 		try {
-			readConfig("info.txt");
-			Connection conn = getConnection(username, password);
+			Connection conn = estabeleceLigacao();
 			PreparedStatement statement = conn.prepareStatement("SELECT IDCultura, NomeCultura, DescricaoCultura from cultura ");
 			ResultSet result = statement.executeQuery();
 			while (result.next()) {
 				culturas.add(new Cultura (result.getInt("IDCultura"), result.getString("NomeCultura"), result.getString("DescricaoCultura")));
-
 			}
 		}catch(Exception e) {
 			System.out.println(e);
 		}
-		//System.out.println(username);
 		return culturas;
 	}
 
 	public ArrayList<Variavel>  getVariaveis() throws Exception {
 		ArrayList<Variavel> variaveis = new ArrayList<>();
 		try {
-			readConfig("info.txt");
-			Connection conn = getConnection(username, password);
+			Connection conn = estabeleceLigacao();
 			PreparedStatement statement = conn.prepareStatement("SELECT IDVariavel, NomeVariavel from variaveis");
 			ResultSet result = statement.executeQuery();
 			while (result.next()) {
@@ -130,8 +127,7 @@ public class InvestigadorSQL {
 
 	public int insertVariavel(int idVariaveis, int idCultura, double limiteInferior, double limiteSuperior) throws IOException {
 		int x = 0;
-		readConfig("info.txt");
-		Connection conn = getConnection(username, password);
+		Connection conn = estabeleceLigacao();
 		try {
 			PreparedStatement query = conn.prepareStatement("INSERT INTO variaveismedidas(IDVariavel_Variaveis, IDCultura_Cultura, LimiteInferior, LimiteSuperior) values ('"+idVariaveis+"', '"+idCultura+"', '"+limiteInferior+"', '"+limiteSuperior+"');");
 			query.executeUpdate();	
@@ -144,8 +140,7 @@ public class InvestigadorSQL {
 	}
 
 	public void insertMedicao(int cultura, int variavel, double valor ) throws SQLException, IOException {
-		readConfig("info.txt");
-		Connection conn = getConnection(username, password);
+		Connection conn = estabeleceLigacao();
 		PreparedStatement query = conn.prepareStatement("insert into medicoes(IDVariaveis_VariaveisMedidas, IDCultura_VariaveisMedidas, ValorMedicao) values ('"+variavel+"', '"+cultura+"', '"+valor+"');");
 		query.executeUpdate();
 	}
@@ -176,8 +171,7 @@ public class InvestigadorSQL {
 	public ArrayList<Variavel> getVariavelEspecifica(int idCultura) {
 		ArrayList<Variavel> medicoes = new ArrayList<>();
 		try {
-			readConfig("info.txt");
-			Connection conn = getConnection(username, password);
+			Connection conn = estabeleceLigacao();
 			PreparedStatement statement = conn.prepareStatement("select IDVariavel_Variaveis from variaveismedidas where IDCultura_Cultura="+idCultura+";");
 			ResultSet result = statement.executeQuery();
 			while (result.next()) {
