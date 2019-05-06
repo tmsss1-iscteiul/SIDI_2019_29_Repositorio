@@ -3,7 +3,6 @@ package pt.iscte.es.investigador;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -51,20 +50,48 @@ public class InvestigadorSQL {
 		}
 		return null;
 	}
-
-	public void inserirCultura(String mail, String cultura, String descricao) throws Exception {
-		try {	
-			readConfig("info.txt");
-			Connection conn = getConnection(username, password);
-			CallableStatement stmt = conn.prepareCall("{call insertCultura("+mail+", "+cultura+", "+descricao+") } ");
-			//			PreparedStatement inserir = conn.prepareStatement("INSERT INTO Cultura (IDCultura, Email_Investigador, NomeCultura, DescricaoCultura) VALUES ('"+id+ "', '"+mail+ "','"+cultura+ "', '"+descricao+ "')"); 
-			stmt.executeQuery();
-		}catch(Exception e){
-			System.out.println(e);
-		}finally {
-			//System.out.println("Insert bem-sucedido");
+	
+	public int idCultura() throws IOException, SQLException {
+		int x = 0;
+		readConfig("info.txt");
+		Connection conn = getConnection(username, password);
+		PreparedStatement statement = conn.prepareStatement("SELECT max(IDCultura) from cultura");
+		ResultSet result = statement.executeQuery();
+		while (result.next()) {
+			x = result.getInt(1);
 		}
+		if( x == 0 ) {
+			System.out.println("Erro ao tentar encontrar último ID da tabela cultura");
+		}
+		return x;
+		
+	}
+	
+	public String buscaEmail () throws IOException, SQLException  { 
+		readConfig("info.txt");
+		Connection conn = getConnection(username, password);
+		String mail ="";
+		
+		PreparedStatement statement = conn.prepareStatement("SELECT Email FROM investigador WHERE Email LIKE ?");
+		
+		statement.setString(1, username + "@" + "%");
+		ResultSet result = statement.executeQuery();
+		while (result.next()) {
+		mail = result.getString(1);
+		}
+		if(mail.equals("")) {
+			System.out.println("Erro ao tentar encontrar o e-mail do Investigador");
+		}
+		return mail;
+	}
 
+	public void inserirCultura(String cultura, String descricao) throws IOException, SQLException {	
+			readConfig("info.txt");
+			String mail= buscaEmail();
+			Connection conn = getConnection(username, password);
+			int idCultura = idCultura() +1;
+			PreparedStatement query = conn.prepareStatement("INSERT INTO cultura(IDCultura, Email_Investigador, NomeCultura, DescricaoCultura) values ('"+idCultura+"', '"+mail+"', '"+cultura+"', '"+descricao+"');");
+			query.executeUpdate();
 	}
 
 	public ArrayList<Cultura>  getCultura() throws Exception {
@@ -164,6 +191,20 @@ public class InvestigadorSQL {
 			System.out.println(e);
 		}
 		return medicoes;
+	}
+	
+	public void updateCultura(String nomeAntigo, String nomeFuturo, String descricao) {
+		Connection conn = getConnection(username, password);
+		PreparedStatement statement;
+		try {
+			statement = conn.prepareStatement("UPDATE cultura set NomeCultura = ?, DescricaoCultura = ? where NomeCultura = ?;");
+			statement.setString(1, nomeFuturo);
+			statement.setString(2, descricao);
+			statement.setString(3, nomeAntigo);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 

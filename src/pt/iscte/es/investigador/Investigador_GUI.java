@@ -67,6 +67,7 @@ public class Investigador_GUI extends JFrame {
 
 	private Choice comboBox_Cultura_pim;
 	private Choice comboBox_Variavel_pim;
+	private JTextArea textArea_DescricaoCultura_pcc;
 
 	/**
 	 * Launch the application.
@@ -249,7 +250,7 @@ public class Investigador_GUI extends JFrame {
 		lblDescrio_pcc.setBounds(40, 75, 70, 25);
 		criarCulturaPanel.add(lblDescrio_pcc);
 
-		JTextArea textArea_DescricaoCultura_pcc = new JTextArea();
+		textArea_DescricaoCultura_pcc = new JTextArea();
 		textArea_DescricaoCultura_pcc.setBounds(110, 75, 180, 80);
 		criarCulturaPanel.add(textArea_DescricaoCultura_pcc);
 
@@ -403,13 +404,18 @@ public class Investigador_GUI extends JFrame {
 		btn_InserirCultura_pcc.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				try {
+					cmd.inserirCultura(textField_NomeCultura_pcc.getText(), textArea_DescricaoCultura_pcc.getText());
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 				JOptionPane.showMessageDialog(null, "Cultura inserida com sucesso.");
 			}
 		});
-
 		btn_AlterarCultura_pvc.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				cmd.updateCultura(comboBox_Cultura_pvc.getSelectedItem(), textField_NomeCultura_pvc.getText(), textArea_DescricaoCultura_pvc.getText());
 				JOptionPane.showMessageDialog(null, "Cultura alterada com sucesso.");
 			}
 		});
@@ -446,10 +452,8 @@ public class Investigador_GUI extends JFrame {
 				try {
 					cmd.insertMedicao(cmd.buscaIDCultura(comboBox_Cultura_pim.getSelectedItem()), cmd.buscaIDVariavel(comboBox_Variavel_pim.getSelectedItem()), valor);
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				JOptionPane.showMessageDialog(null, "Medição inserida com sucesso.");
