@@ -141,9 +141,13 @@ public class Algorithm {
 		if(!messageToConfirm.get("tmp").equals("") && !Pattern.matches("[a-zA-Z]+", messageToConfirm.get("tmp").toString()))
 			//temp = Double.parseDouble((String) messageToConfirm.get("tmp"));
 			temp = (String) messageToConfirm.get("tmp");
+		else if(messageToConfirm.get("tmp").equals(""))
+			temp = "0";
 		if(!messageToConfirm.get("cell").equals("") && !Pattern.matches("[a-zA-Z]+", messageToConfirm.get("cell").toString()))
 			//lum = Double.parseDouble((String) messageToConfirm.get("cell"));
 			lum = (String) messageToConfirm.get("cell");
+		else if(messageToConfirm.get("cell").equals(""))
+			lum = "0";
 		
 		String date = (String) messageToConfirm.get("dat");
 		String time = (String) messageToConfirm.get("tim");
