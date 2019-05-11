@@ -182,7 +182,7 @@ public class MySql extends Thread{
 
 				*/
 	    		mongo.getModelTL().clear();
-	    		sqlSPTemp = "call Insert_Temperatura("
+	    		sqlSPTemp = "call Insert_Temperatura_v3("
 	    												+ "\'" + (json.get("temperatura") != null ? json.get("temperatura") : null) + "\'"
 	    												+ ", "
 	    												+ "\'" + (json.get("data") != null ? json.get("data") : null) + "\'"
@@ -190,7 +190,7 @@ public class MySql extends Thread{
 	    												+ "\'" + (json.get("tempo") != null ? json.get("tempo"): null) + "\'"
 	    												+ ")";
 	    		
-	    		sqlSPLum = "call Insert_Luminosidade("
+	    		sqlSPLum = "call Insert_Luminosidade_v3("
 														+ "\'" + (json.get("luminosidade") != null ? json.get("luminosidade") : null) + "\'"
 														+ ", "
 														+ "\'" + (json.get("data") != null ? json.get("data") : null) + "\'"
