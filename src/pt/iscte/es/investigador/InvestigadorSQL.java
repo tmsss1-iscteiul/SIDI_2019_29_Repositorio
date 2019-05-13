@@ -1,11 +1,15 @@
 package pt.iscte.es.investigador;
 
 import java.io.IOException;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.swing.JOptionPane;
 
@@ -195,48 +199,51 @@ public class InvestigadorSQL {
 
 	// Medicao
 	public void insertMedicao(int cultura, int variavel, double valor) throws SQLException, IOException {
-		int numeroMedicao = getNumeroMedicaoMax() + 1;
-		PreparedStatement query = conn.prepareStatement(
-				"insert into medicoes(NumeroMedicao, IDVariaveis_VariaveisMedidas, IDCultura_VariaveisMedidas, ValorMedicao) values ('"
-						+ numeroMedicao + "', '" + variavel + "', '" + cultura + "', '" + valor + "');");
-		query.executeUpdate();
+		//String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+		 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		//int numeroMedicao = getNumeroMedicaoMax() + 1;
+		CallableStatement stmt = conn.prepareCall("{call Insert_Medicao_v3(?,?,?,?)}");
+		stmt.setDouble(1, valor);
+		stmt.setInt(2, variavel);
+		stmt.setInt(3, cultura);
+		stmt.setTimestamp(4, timestamp);
+		stmt.execute();
 	}
 
-	private int getNumeroMedicaoMax() throws SQLException {
-		int x = 0;
-		PreparedStatement statement = conn.prepareStatement("SELECT max(NumeroMedicao) from medicoes");
-		ResultSet result = statement.executeQuery();
-		while (result.next()) {
-			x = result.getInt(1);
-		}
-		if (x == 0) {
-			System.out.println("Erro ao tentar encontrar último ID da tabela cultura");
-		}
-		return x;
-	}
-
-	public ArrayList<Medicao> getMedicoesVariavel(int idCultura, int idVariavel) {
-		ArrayList<Medicao> medicoes = new ArrayList<>();
-		PreparedStatement statement;
-		try {
-			statement = conn.prepareStatement(
-					"SELECT IDVariavel_Variaveis, IDCultura_Cultura from variaveismedidas where IDCultura_Cultura = ?");
-			statement.setInt(1, idCultura);
-			ResultSet result = statement.executeQuery();
-			while (result.next()) {
-				/*
-				medicoes.add(new Medicao(result.getInt(IDVariavel_Variaveis), result.getInt(IDCultura_Cultura),
-						result.getInt(IDVariavel_Variaveis), result.getInt(IDCultura_Cultura),
-						result.getString(IDCultura_Cultura)));
-				 */
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return null;
-	}
+//	private int getNumeroMedicaoMax() throws SQLException {
+//		int x = 0;
+//		PreparedStatement statement = conn.prepareStatement("SELECT max(NumeroMedicao) from medicoes");
+//		ResultSet result = statement.executeQuery();
+//		while (result.next()) {
+//			x = result.getInt(1);
+//		}
+//		if (x == 0) {
+//			System.out.println("Erro ao tentar encontrar último ID da tabela cultura");
+//		}
+//		return x;
+//	}
+//
+//	public ArrayList<Medicao> getMedicoesVariavel(int idCultura, int idVariavel) {
+//		ArrayList<Medicao> medicoes = new ArrayList<>();
+//		try {
+//			PreparedStatement statement = conn.prepareStatement(
+//					"SELECT IDVariavel_Variaveis, IDCultura_Cultura from variaveismedidas where IDCultura_Cultura = ?");
+//			statement.setInt(1, idCultura);
+//			ResultSet result = statement.executeQuery();
+//			while (result.next()) {
+//				/*
+//				medicoes.add(new Medicao(result.getInt(IDVariavel_Variaveis), result.getInt(IDCultura_Cultura),
+//						result.getInt(IDVariavel_Variaveis), result.getInt(IDCultura_Cultura),
+//						result.getString(IDCultura_Cultura)));
+//				 */
+//			}
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		return null;
+//	}
 
 	public ArrayList<Medicao> getMedicoes() {
 		// TODO Auto-generated method stub
