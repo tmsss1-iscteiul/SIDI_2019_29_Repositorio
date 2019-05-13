@@ -1,5 +1,6 @@
 package pt.iscte.es.admin;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,18 +33,21 @@ public class AdminSQL {
 		return investigadores;
 	}
 
-	public void inserirInvestigador(String emailInvestigador, String nomeInvestigador, String categoriaProfissional) {
-		PreparedStatement query;
-		try {
-			query = conn.prepareStatement(
-					"INSERT INTO investigador(Email, NomeInvestigador, CategoriaProfissional) values ('"
-							+ emailInvestigador + "', '" + nomeInvestigador + "', '" + categoriaProfissional + "');");
-			query.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
+	/* Insere um novo investigador com uma palavra pass pré-definida "random" */
+	public void inserirInvestigador(String mail, String nome, String categoriaProfissional) throws Exception {
+		try {	
+			String random = "random";
+			CallableStatement stmt = conn.prepareCall("{call InsertInvestigador(?,?,?,?)}");
+			stmt.setString(1, mail);
+			stmt.setString(2, random);
+			stmt.setString(3, nome);
+			stmt.setString(4, categoriaProfissional);
+			stmt.execute();
+		}catch(Exception e){
+			System.out.println(e);
 		}
-
 	}
+
 
 	public void updateInvestigador(String email, String nomeNovo, String categoriaNova) {
 		PreparedStatement statement;
