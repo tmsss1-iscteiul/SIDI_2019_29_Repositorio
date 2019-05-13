@@ -40,6 +40,9 @@ public class AdminAPP {
 		gui.open();
 	}
 
+	/**
+	 * 
+	 */
 	private void addButtonsActionListener() {
 		// Painel Criar Invetigador
 		gui.getBtnCriarInvestigador().addActionListener(new ActionListener() {
@@ -195,6 +198,9 @@ public class AdminAPP {
 		});
 	}
 
+	/**
+	 * 
+	 */
 	private void updateVariaveis(){
 		try {
 			listaVariaveis.clear();
@@ -204,11 +210,17 @@ public class AdminAPP {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	private void updateInvestigadores() {
 		listaInvestigadores.clear();
 		listaInvestigadores = cmd.getInvestigador();
 	}
 
+	/**
+	 * 
+	 */
 	private void logout() {
 		JOptionPane.showMessageDialog(null, "You have sucessfully logged out!");
 		Login login = new Login();

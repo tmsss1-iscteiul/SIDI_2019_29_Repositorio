@@ -10,13 +10,27 @@ import java.util.ArrayList;
 import pt.iscte.es.objetos.Investigador;
 import pt.iscte.es.objetos.Variavel;
 
+/**
+ * 
+ * @author jfnfs
+ *
+ */
 public class AdminSQL {
 	private Connection conn;
 
+	/**
+	 * Construtor
+	 * @param conn
+	 * @param username
+	 */
 	public AdminSQL(Connection conn, String username) {
 		this.conn = conn;
 	}
 
+	/**
+	 * Devolve uma lista de investigadores
+	 * @return
+	 */
 	public ArrayList<Investigador> getInvestigador() {
 		ArrayList<Investigador> investigadores = new ArrayList<>();
 		try {
@@ -32,8 +46,14 @@ public class AdminSQL {
 		}
 		return investigadores;
 	}
-
-	/* Insere um novo investigador com uma palavra pass pré-definida "random" */
+	
+	/**
+	 * Insere um novo investigador com uma palavra pass pré-definida "random"
+	 * @param mail
+	 * @param nome
+	 * @param categoriaProfissional
+	 * @throws Exception
+	 */
 	public void inserirInvestigador(String mail, String nome, String categoriaProfissional) throws Exception {
 		try {	
 			String random = "random";
@@ -48,7 +68,12 @@ public class AdminSQL {
 		}
 	}
 
-
+	/**
+	 * Actualiza um Investigador existente
+	 * @param email
+	 * @param nomeNovo
+	 * @param categoriaNova
+	 */
 	public void updateInvestigador(String email, String nomeNovo, String categoriaNova) {
 		PreparedStatement statement;
 		try {
@@ -63,6 +88,10 @@ public class AdminSQL {
 		}
 	}
 
+	/**
+	 * Remove um Investigador
+	 * @param email
+	 */
 	public void deleteInvestigador(String email) {
 		PreparedStatement query;
 		try {
@@ -73,7 +102,12 @@ public class AdminSQL {
 			e.printStackTrace();
 		}
 	}
-
+	
+	/**
+	 * Devolve uma lista de Variaveis
+	 * @return
+	 * @throws Exception
+	 */
 	public ArrayList<Variavel> getVariaveis() throws Exception {
 		ArrayList<Variavel> variaveis = new ArrayList<>();
 		try {
@@ -88,6 +122,10 @@ public class AdminSQL {
 		return variaveis;
 	}
 
+	/**
+	 * Insere uma nova Variavel
+	 * @param nomeVariavel
+	 */
 	public void inserirVariavel(String nomeVariavel) {
 		PreparedStatement query;
 		try {
@@ -100,6 +138,11 @@ public class AdminSQL {
 		}
 	}
 
+	/**
+	 * Devolve o Id Maximo da Variavel
+	 * @return
+	 * @throws SQLException
+	 */
 	private int idVariavelMax() throws SQLException {
 		int x = 0;
 		PreparedStatement statement = conn.prepareStatement("SELECT max(IDVariavel) from variaveis");
@@ -113,6 +156,11 @@ public class AdminSQL {
 		return x;
 	}
 
+	/**
+	 * Actualiza a Variavel
+	 * @param id_old
+	 * @param nome_new
+	 */
 	public void updateVariavel(int id_old, String nome_new) {
 		PreparedStatement statement;
 		try {
@@ -126,6 +174,10 @@ public class AdminSQL {
 		}
 	}
 
+	/**
+	 * Remove a referida variavel
+	 * @param idVariavel
+	 */
 	public void deleteVariavel(int idVariavel) {
 		PreparedStatement query;
 		try {
