@@ -170,6 +170,9 @@ public class Admin_GUI extends JFrame {
 		South.add(btnLogout);
 	}
 
+	/**
+	 * Painel para criação do Investigador
+	 */
 	private void panel_CriarInvestigador() {
 		criarInvestigadorPanel = new JPanel();
 		criarInvestigadorPanel.setBackground(new Color(51, 204, 102));
@@ -207,6 +210,9 @@ public class Admin_GUI extends JFrame {
 		criarInvestigadorPanel.add(btn_InserirInvestigador_pni);
 	}
 
+	/**
+	 * Painel para visualização do Investigador
+	 */
 	private void panel_VerInvestigador() {
 		verInvestigadoresPanel = new JPanel();
 		verInvestigadoresPanel.setBackground(new Color(51, 204, 102));
@@ -248,6 +254,9 @@ public class Admin_GUI extends JFrame {
 		verInvestigadoresPanel.add(btn_EliminarInvestigador_pvi);
 	}
 
+	/**
+	 * Painel para criação da Variavel
+	 */
 	private void panel_CriarVariavel() {
 		criarVariavelPanel = new JPanel();
 		criarVariavelPanel.setBackground(new Color(51, 204, 102));
@@ -268,6 +277,9 @@ public class Admin_GUI extends JFrame {
 		criarVariavelPanel.add(btn_InserirVariavel_pcv);
 	}
 
+	/**
+	 * Painel para visualização da Variavel
+	 */
 	private void panel_VerVariavel() {
 		verVariaveisPanel = new JPanel();
 		verVariaveisPanel.setBackground(new Color(51, 204, 102));
@@ -301,6 +313,10 @@ public class Admin_GUI extends JFrame {
 		verVariaveisPanel.add(btn_EliminarVariavel_pvv);
 	}
 
+	/**
+	 * Altera o Painel em função do painel passado na String
+	 * @param panel
+	 */
 	public void changePanel(String panel) {
 		criarInvestigadorPanel.setVisible(false);
 		verInvestigadoresPanel.setVisible(false);
@@ -322,86 +338,169 @@ public class Admin_GUI extends JFrame {
 		}
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public JButton getBtnCriarInvestigador() {
 		return btnCriarInvestigador;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public JButton getBtnVerInvestigadores() {
 		return btnVerInvestigadores;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public JButton getBtnCriarVariavel() {
 		return btnCriarVariavel;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public JButton getBtnVerVariaveis() {
 		return btnVerVariaveis;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public JTextField getTextField_NomeInvestigador_pni() {
 		return textField_NomeInvestigador_pni;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public JTextField getTextField_Email_pni() {
 		return textField_Email_pni;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public JTextArea getTextArea_CategoriaProfissional_pni() {
 		return textArea_CategoriaProfissional_pni;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public JButton getBtn_InserirInvestigador_pni() {
 		return btn_InserirInvestigador_pni;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public JComboBox<String> getComboBox_Email_pvi() {
 		return comboBox_Email_pvi;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public JTextField getTextField_NomeInvestigador_pvi() {
 		return textField_NomeInvestigador_pvi;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public JTextArea getTextArea_CategoriaProfissional_pvi() {
 		return textArea_CategoriaProfissional_pvi;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public JButton getBtn_AlterarInvestigador_pvi() {
 		return btn_AlterarInvestigador_pvi;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public JButton getBtn_EliminarInvestigador_pvi() {
 		return btn_EliminarInvestigador_pvi;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public JTextField getTextField_NomeVariavel_pcv() {
 		return textField_NomeVariavel_pcv;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public JButton getBtn_InserirVariavel_pcv() {
 		return btn_InserirVariavel_pcv;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public JComboBox<String> getComboBox_Variavel_pvv() {
 		return comboBox_Variavel_pvv;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public JTextField getTextField_Variavel_pvv() {
 		return textField_Variavel_pvv;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public JButton getBtn_AlterarVariavel_pvv() {
 		return btn_AlterarVariavel_pvv;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public JButton getBtn_EliminarVariavel_pvv() {
 		return btn_EliminarVariavel_pvv;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public JButton getBtnLogout() {
 		return btnLogout;
 	}
 
+	/**
+	 * 
+	 */
 	public void open() {
 		setVisible(true);
 	}
