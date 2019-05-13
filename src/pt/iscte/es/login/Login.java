@@ -17,6 +17,11 @@ import pt.iscte.es.admin.AdminAPP;
 import pt.iscte.es.admin.Admin_GUI;
 import pt.iscte.es.investigador.InvestigadorAPP;
 
+/**
+ * 
+ * @author jfnfs
+ *
+ */
 public class Login {
 
 	private Login_GUI gui;
@@ -25,15 +30,26 @@ public class Login {
 	private String password;
 	private Connection conn;
 
+	/**
+	 * 
+	 */
 	public Login() {
 		gui = new Login_GUI();
 	}
 
+	/**
+	 * 
+	 */
 	public void start() {
 		addButtonActionListener();
 		gui.open();
 	}
 
+	/**
+	 * Realiza o Login
+	 * @throws FileNotFoundException
+	 * @throws UnsupportedEncodingException
+	 */
 	private void login() throws FileNotFoundException, UnsupportedEncodingException {
 		conn = getConnection(username, password);
 		
@@ -53,6 +69,12 @@ public class Login {
 		}
 	}
 
+	/**
+	 * Obtem conecção
+	 * @param username
+	 * @param password
+	 * @return
+	 */
 	public Connection getConnection(String username, String password) {
 		try {
 			String driver = "com.mysql.jdbc.Driver";
@@ -66,6 +88,11 @@ public class Login {
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @param conn
+	 * @return
+	 */
 	private boolean isInvestigador(Connection conn){
 		try {
 			PreparedStatement statement;
@@ -80,6 +107,9 @@ public class Login {
 		return false;
 	}
 
+	/**
+	 * 
+	 */
 	private void addButtonActionListener() {
 		gui.getBtn_login().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

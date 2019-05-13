@@ -15,8 +15,17 @@ import pt.iscte.es.login.Login;
 import pt.iscte.es.objetos.Cultura;
 import pt.iscte.es.objetos.Variavel;
 
+/**
+ * 
+ * @author 
+ *
+ */
 public class AllTests {
 
+	/**
+	 * Classe de Testes
+	 * @throws Exception
+	 */
 	@Test
 	public void test() throws Exception {
 		Login login = new Login();

@@ -13,6 +13,11 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+/**
+ * 
+ * @author jfnfs
+ *
+ */
 public class Login_GUI extends JFrame {
 
 	/**
