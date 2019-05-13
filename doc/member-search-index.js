@@ -1,0 +1,1 @@
+memberSearchIndex = [{"p":"pt.iscte.es.objetos","c":"Variavel","l":"getID()"},{"p":"pt.iscte.es.objetos","c":"Variavel","l":"getNome()"},{"p":"pt.iscte.es.objetos","c":"Variavel","l":"toString()"},{"p":"pt.iscte.es.objetos","c":"Variavel","l":"Variavel(int, String)","url":"%3Cinit%3E(int,java.lang.String)"}]
