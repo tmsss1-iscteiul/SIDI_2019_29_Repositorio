@@ -26,4 +26,4 @@ pt.iscte.es.investigador.InvestigadorSQL	[pt.iscte.es.investigador.InvestigadorS
 
 (*) Projeto da UC SID. Sem efeito para o presente método de avaliação.
 
-Para o nosso grupo, todas as godclass detetadas são relativas a serem classes de interface gráfica. E as que não são os métodos assinalados são necessários para o bom funcionamento do programa, não tendo encontrado alternativas.
+Para o nosso grupo, todas as godclass detetadas são relativas a serem classes de interface gráfica (o que não é ncessáriamente um codesmell). E as godclass detetadas que não fazem parte das interfaces gráficas, os métodos assinalados são necessários para o bom funcionamento do programa, não havendo alternativas para corrigi-los.
