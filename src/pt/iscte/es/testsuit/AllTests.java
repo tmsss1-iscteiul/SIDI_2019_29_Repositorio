@@ -33,7 +33,20 @@ public class AllTests {
 		//Investigador
 		InvestigadorSQL cmd = new InvestigadorSQL(c, "root");
 		ArrayList<Cultura> cultura = cmd.getCultura();
+		assert(!cultura.isEmpty());
 		ArrayList<Variavel> variavel = cmd.getVariaveis();
+		assert(!variavel.isEmpty());
+		ArrayList<Cultura> cultura2 = cmd.getCulturasSemVariaveis();
+		assert(!cultura2.isEmpty());
+		int id = cmd.buscaIDCultura("CulturaNova");
+		assertEquals(7, id);
+		assertEquals("root@localhost", cmd.buscaEmail());
+		assertEquals(7, cmd.idCultura());
+		assertEquals(1, cmd.buscaIDVariavel("Variavel de Teste"));
+		variavel = cmd.getVariaveisAssociadasCultura(1);
+		assertNotEquals(null, variavel);
+		variavel = cmd .getVariavelEspecifica(1);
+		assertNotEquals(null, variavel);
 		
 		//Admin
 		AdminSQL cm = new AdminSQL(c2, "admin");
