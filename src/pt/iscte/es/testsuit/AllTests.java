@@ -40,57 +40,67 @@ public class AllTests {
 		assertNotEquals(null, ad);
 	
 		//Investigador
-		InvestigadorSQL investigadorSQL = new InvestigadorSQL(c, investigador);
+		InvestigadorSQL cmd = new InvestigadorSQL(c, investigador);
 		//getCultura
-		ArrayList<Cultura> cultura = investigadorSQL.getCultura();
+		ArrayList<Cultura> cultura = cmd.getCultura();
 		assert(!cultura.isEmpty());
+		//inserirCultura
+		/*
+		int size = cultura.size();
+		cmd.inserirCultura("CulturaTeste12345", "CulturaDescricao");
+		size++;
+		cultura = cmd.getCultura();
+		assertEquals(size, cultura.size());
+		*/
 		//getVariaveis
-		ArrayList<Variavel> variavel = investigadorSQL.getVariaveis();
+		ArrayList<Variavel> variavel = cmd.getVariaveis();
 		assert(!variavel.isEmpty());
 		//getCulturasSemVariaveis
-		ArrayList<Cultura> cultura2 = investigadorSQL.getCulturasSemVariaveis();
+		ArrayList<Cultura> cultura2 = cmd.getCulturasSemVariaveis();
 		assert(!cultura2.isEmpty());
 		//buscaIDCultura
-		int id = investigadorSQL.buscaIDCultura("CulturaNova");
-		assertEquals(7, id);
-		assertEquals("root@localhost", investigadorSQL.buscaEmail());
-		assertEquals(7, investigadorSQL.idCultura());
-		assertEquals(1, investigadorSQL.buscaIDVariavel("Variavel de Teste"));
-		variavel = investigadorSQL.getVariaveisAssociadasCultura(1);
+		Cultura culturaAux = cultura.get(cultura.size()-1);
+		assertEquals(culturaAux.getID(), cmd.buscaIDCultura(culturaAux.getNome()));
+		assertEquals(culturaAux.getEmailInvestigador(), cmd.buscaEmail());
+		assertEquals(culturaAux.getID(), cmd.idCultura());
+		//buscaIDVariavel
+		Variavel variavelAux = variavel.get(variavel.size()-1);
+		assertEquals(variavelAux.getID(), cmd.buscaIDVariavel(variavelAux.getNome()));
+		variavel = cmd.getVariaveisAssociadasCultura(1);
 		assertNotEquals(null, variavel);
-		variavel = investigadorSQL .getVariavelEspecifica(1);
+		variavel = cmd .getVariavelEspecifica(1);
 		assertNotEquals(null, variavel);
 		
 		//Admin
-		AdminSQL cmd = new AdminSQL(c2, admin);
+		AdminSQL adminSQL = new AdminSQL(c2, admin);
 		//getInvestigador
-		ArrayList<Investigador> investigador = cmd.getInvestigador();
+		ArrayList<Investigador> investigador = adminSQL.getInvestigador();
 		assertNotEquals(null, investigador);
 		//inserirInvestigador
-		int size = investigador.size();
-		cmd.inserirInvestigador("emailTeste123@Teste", "Nome Teste", "Categori Teste");
-		investigador = cmd.getInvestigador();
-		size++;
-		assertEquals(size, investigador.size());
+		int size2 = investigador.size();
+		adminSQL.inserirInvestigador("emailTeste123@Teste", "Nome Teste", "Categori Teste");
+		investigador = adminSQL.getInvestigador();
+		size2++;
+		assertEquals(size2, investigador.size());
 		//deleteInvestigador
-		cmd.deleteInvestigador("emailTeste123@Teste");
-		investigador = cmd.getInvestigador();
-		size--;
-		assertEquals(size, investigador.size());
+		adminSQL.deleteInvestigador("emailTeste123@Teste");
+		investigador = adminSQL.getInvestigador();
+		size2--;
+		assertEquals(size2, investigador.size());
 		//getVariaveis
-		variavel = cmd.getVariaveis();
+		variavel = adminSQL.getVariaveis();
 		assertNotEquals(null, variavel);
 		//inserirVariavel
-		size = variavel.size();
-		cmd.inserirVariavel("VariavelTesteNova");
-		size++;
-		variavel = cmd.getVariaveis();
-		assertEquals(size, variavel.size());
+		size2 = variavel.size();
+		adminSQL.inserirVariavel("VariavelTesteNova");
+		size2++;
+		variavel = adminSQL.getVariaveis();
+		assertEquals(size2, variavel.size());
 		//deleteVariavel
-		cmd.deleteVariavel(variavel.get(variavel.size()-1).getID());
-		size--;
-		variavel = cmd.getVariaveis();
-		assertEquals(size, variavel.size());
+		adminSQL.deleteVariavel(variavel.get(variavel.size()-1).getID());
+		size2--;
+		variavel = adminSQL.getVariaveis();
+		assertEquals(size2, variavel.size());
 	}
 
 }
