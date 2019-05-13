@@ -17,15 +17,31 @@ import pt.iscte.es.objetos.Cultura;
 import pt.iscte.es.objetos.Medicao;
 import pt.iscte.es.objetos.Variavel;
 
+/**
+ * 
+ * @author jfnfs
+ *
+ */
 public class InvestigadorSQL {
 	private Connection conn;
 	private String username;
 
+	/**
+	 * Construtor
+	 * @param conn
+	 * @param username
+	 */
 	public InvestigadorSQL(Connection conn, String username) {
 		this.conn = conn;
 		this.username = username;
 	}
 
+	/**
+	 * Devolve email do investigador presente na Base de Dados
+	 * @return
+	 * @throws IOException
+	 * @throws SQLException
+	 */
 	public String buscaEmail() throws IOException, SQLException {
 		String mail = "";
 		PreparedStatement statement = conn.prepareStatement("SELECT Email FROM investigador WHERE Email LIKE ?");
@@ -40,7 +56,11 @@ public class InvestigadorSQL {
 		return mail;
 	}
 
-	// Cultura
+	/**
+	 * Devolve Culturas na Base de Dados
+	 * @return
+	 * @throws Exception
+	 */
 	public ArrayList<Cultura> getCultura() throws Exception {
 		ArrayList<Cultura> culturas = new ArrayList<>();
 		try {
@@ -58,6 +78,11 @@ public class InvestigadorSQL {
 		return culturas;
 	}
 
+	/**
+	 * Devolve Culturas sem Variaveis
+	 * @return
+	 * @throws Exception
+	 */
 	public ArrayList<Cultura> getCulturasSemVariaveis() throws Exception {
 		ArrayList<Cultura> culturas = new ArrayList<>();
 		PreparedStatement statement = conn.prepareStatement(
@@ -73,6 +98,12 @@ public class InvestigadorSQL {
 		return culturas;
 	}
 
+	/**
+	 * Devolve o ID da Cultura
+	 * @param nomeCultura
+	 * @return
+	 * @throws Exception
+	 */
 	public int buscaIDCultura(String nomeCultura) throws Exception {
 		int id = 0;
 		for (Cultura cultura : getCultura()) {
@@ -83,6 +114,13 @@ public class InvestigadorSQL {
 		return id;
 	}
 
+	/**
+	 * Insere uma nova Cultura
+	 * @param cultura
+	 * @param descricao
+	 * @throws IOException
+	 * @throws SQLException
+	 */
 	public void inserirCultura(String cultura, String descricao) throws IOException, SQLException {
 		String mail = buscaEmail();
 		int idCultura = idCultura() + 1;
@@ -92,6 +130,12 @@ public class InvestigadorSQL {
 		query.executeUpdate();
 	}
 
+	/**
+	 * Devovle o id Cultura
+	 * @return
+	 * @throws IOException
+	 * @throws SQLException
+	 */
 	public int idCultura() throws IOException, SQLException {
 		int x = 0;
 		PreparedStatement statement = conn.prepareStatement("SELECT max(IDCultura) from cultura");
@@ -105,6 +149,12 @@ public class InvestigadorSQL {
 		return x;
 	}
 
+	/**
+	 * Actualiza a Cultura
+	 * @param nomeAntigo
+	 * @param nomeFuturo
+	 * @param descricao
+	 */
 	public void updateCultura(String nomeAntigo, String nomeFuturo, String descricao) {
 		PreparedStatement statement;
 		try {
@@ -119,7 +169,11 @@ public class InvestigadorSQL {
 		}
 	}
 
-	// Variavel
+	/**
+	 * Devolve lista de Variaveis
+	 * @return
+	 * @throws Exception
+	 */
 	public ArrayList<Variavel> getVariaveis() throws Exception {
 		ArrayList<Variavel> variaveis = new ArrayList<>();
 		try {
@@ -134,6 +188,12 @@ public class InvestigadorSQL {
 		return variaveis;
 	}
 
+	/**
+	 * Devolve lista de Variaveis para determinada Cultura
+	 * @param idCultura
+	 * @return
+	 * @throws Exception
+	 */
 	public ArrayList<Variavel> getVariaveisAssociadasCultura(int idCultura) throws Exception {
 		ArrayList<Variavel> variaveis = new ArrayList<>();
 		PreparedStatement statement = conn.prepareStatement(
@@ -151,6 +211,11 @@ public class InvestigadorSQL {
 		return variaveis;
 	}
 
+	/**
+	 * Devolve Variaveis para Cultura especifica
+	 * @param idCultura
+	 * @return
+	 */
 	public ArrayList<Variavel> getVariavelEspecifica(int idCultura) {
 		ArrayList<Variavel> medicoes = new ArrayList<>();
 		try {
@@ -170,6 +235,12 @@ public class InvestigadorSQL {
 		return medicoes;
 	}
 
+	/**
+	 * Devolve Id da Variavel
+	 * @param nomeVariavel
+	 * @return
+	 * @throws Exception
+	 */
 	public int buscaIDVariavel(String nomeVariavel) throws Exception {
 		int id = 0;
 		for (Variavel variavel : getVariaveis()) {
@@ -180,6 +251,15 @@ public class InvestigadorSQL {
 		return id;
 	}
 
+	/**
+	 * Insere Variavel
+	 * @param idVariaveis
+	 * @param idCultura
+	 * @param limiteInferior
+	 * @param limiteSuperior
+	 * @return
+	 * @throws IOException
+	 */
 	public int insertVariavel(int idVariaveis, int idCultura, double limiteInferior, double limiteSuperior)
 			throws IOException {
 		int x = 0;
@@ -197,7 +277,14 @@ public class InvestigadorSQL {
 		return x;
 	}
 
-	// Medicao
+	/**
+	 * Insere Medição nova
+	 * @param cultura
+	 * @param variavel
+	 * @param valor
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	public void insertMedicao(int cultura, int variavel, double valor) throws SQLException, IOException {
 		//String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
 		 Timestamp timestamp = new Timestamp(System.currentTimeMillis());

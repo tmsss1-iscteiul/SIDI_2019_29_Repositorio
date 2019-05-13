@@ -13,6 +13,11 @@ import pt.iscte.es.objetos.Cultura;
 import pt.iscte.es.objetos.Medicao;
 import pt.iscte.es.objetos.Variavel;
 
+/**
+ * 
+ * @author jfnfs
+ *
+ */
 public class InvestigadorAPP {
 
 	private Investigador_GUI gui;
@@ -30,11 +35,20 @@ public class InvestigadorAPP {
 		i.start();
 	}
 	 */
+	
+	/**
+	 * Cria conexção para o investigador
+	 * @param conn
+	 * @param username
+	 */
 	public InvestigadorAPP(Connection conn, String username) {
 		gui = new Investigador_GUI();
 		cmd = new InvestigadorSQL(conn, username);
 	}
 
+	/**
+	 * 
+	 */
 	public void start() {
 		try {
 			listaCulturas = cmd.getCultura();
@@ -46,6 +60,9 @@ public class InvestigadorAPP {
 		gui.open();
 	}
 
+	/**
+	 * 
+	 */
 	private void addButtonsActionListener() {
 		// Painel Inserir Cultura
 		gui.getBtnCriarCultura().addActionListener(new ActionListener() {
@@ -263,16 +280,27 @@ public class InvestigadorAPP {
 		});
 	}
 
+	/**
+	 * Actualiza a lista de culturas
+	 * @throws Exception
+	 */
 	private void updateListaCulturas() throws Exception {
 		listaCulturas.clear();
 		listaCulturas = cmd.getCultura();
 	}
 	
+	/**
+	 * Actualiza Medições do Investigador
+	 * @throws Exception
+	 */
 	private void updateMedicoes() throws Exception {
 		medicoes.clear();
 		medicoes = cmd.getMedicoes();
 	}
 
+	/**
+	 * Realiza Logout do Investigador
+	 */
 	private void logout() {
 		JOptionPane.showMessageDialog(null, "You have sucessfully logged out!");
 		Login login = new Login();
