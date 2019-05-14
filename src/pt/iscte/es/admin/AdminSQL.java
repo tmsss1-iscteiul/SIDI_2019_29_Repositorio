@@ -11,7 +11,7 @@ import pt.iscte.es.objetos.Investigador;
 import pt.iscte.es.objetos.Variavel;
 
 /**
- * 
+ * Classe com interface grafica para utilização do Admin 
  * @author jfnfs
  *
  */
@@ -57,7 +57,7 @@ public class AdminSQL {
 	public void inserirInvestigador(String mail, String nome, String categoriaProfissional) throws Exception {
 		try {	
 			String random = "random";
-			CallableStatement stmt = conn.prepareCall("{call InsertInvestigador(?,?,?,?)}");
+			CallableStatement stmt = conn.prepareCall("{call InserirInvestigador(?,?,?,?)}");
 			stmt.setString(1, mail);
 			stmt.setString(2, random);
 			stmt.setString(3, nome);
