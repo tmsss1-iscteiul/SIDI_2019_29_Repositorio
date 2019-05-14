@@ -23,11 +23,13 @@ import pt.iscte.es.objetos.Variavel;
  */
 public class AllTests {
 	
+	/**
+	 * Alterar para root da BD para efetuar testes.
+	 */
 	private String investigador = "root";
 	private String investigadorPass = "";
 	private String admin = "admin";
 	private String adminPass = "12345";
-	
 
 	/**
 	 * Classe de Testes
