@@ -5,26 +5,17 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import java.awt.Font;
-import java.awt.ScrollPane;
-import java.awt.Choice;
 import java.awt.Color;
 
 import javax.swing.SwingConstants;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-
 import javax.swing.JTextArea;
-import javax.swing.JList;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -54,7 +45,8 @@ public class Investigador_GUI extends JFrame {
 	private JComboBox<String> comboBox_Cultura_pvc;
 	private JTextField textField_NomeCultura_pvc;
 	private JButton btn_AlterarCultura_pvc;
-
+	private JButton btn_EliminarCultura_pvc;
+	
 	private JPanel atribuirVariavelPanel;
 	private JComboBox<String> comboBox_Cultura_pav;
 	private JComboBox<String> comboBox_Variavel_pav;
@@ -73,9 +65,12 @@ public class Investigador_GUI extends JFrame {
 	private JComboBox<String> comboBox_Cultura_pvm;
 	private JComboBox<String> comboBox_Variavel_pvm;
 	private DefaultTableModel modelTable_pvm;
+	private JTable tableMedicoes_pvm;
+	private JButton btnEditar_pvm;
+	private JButton btnApagar_pvm;
 
 	private JButton btnLogout;
-	private JTable tableMedicoes_pvm;
+
 
 	/**
 	 * Create the frame.
@@ -246,6 +241,10 @@ public class Investigador_GUI extends JFrame {
 		btn_AlterarCultura_pvc = new JButton("Alterar");
 		btn_AlterarCultura_pvc.setBounds(110, 215, 100, 25);
 		verCulturasPanel.add(btn_AlterarCultura_pvc);
+		
+		btn_EliminarCultura_pvc = new JButton("Eliminar");
+		btn_EliminarCultura_pvc.setBounds(250, 215, 100, 25);
+		verCulturasPanel.add(btn_EliminarCultura_pvc);
 	}
 
 	private void panel_AtribuirVariavel() {
@@ -357,7 +356,7 @@ public class Investigador_GUI extends JFrame {
 		comboBox_Variavel_pvm.setBounds(65, 40, 200, 25);
 		verMedicoesPanel.add(comboBox_Variavel_pvm);
 
-		String[] colunas = { "Número", "Data Hora", "Valor" };
+		String[] colunas = { "N.", "Valor", "Data Hora" };
 		modelTable_pvm = new DefaultTableModel(colunas, 0);
 
 		tableMedicoes_pvm = new JTable(modelTable_pvm);
@@ -365,21 +364,16 @@ public class Investigador_GUI extends JFrame {
 		tableMedicoes_pvm.setColumnSelectionAllowed(false);
 		tableMedicoes_pvm.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tableMedicoes_pvm.setRowHeight(20);
-
+		
 		JScrollPane scrollTable = new JScrollPane(tableMedicoes_pvm);
 		scrollTable.setBounds(10, 70, 355, 140);
 		verMedicoesPanel.add(scrollTable);
 
-		/*
-		 * Add Table modelTable.addRow(new Object[]{"998",
-		 * "2019-03-04 20:23:32", "650.00"});
-		 */
-
-		JButton btnEditar_pvm = new JButton("Editar");
+		btnEditar_pvm = new JButton("Editar");
 		btnEditar_pvm.setBounds(80, 215, 100, 25);
 		verMedicoesPanel.add(btnEditar_pvm);
 
-		JButton btnApagar_pvm = new JButton("Apagar");
+		btnApagar_pvm = new JButton("Apagar");
 		btnApagar_pvm.setBounds(200, 215, 100, 25);
 		verMedicoesPanel.add(btnApagar_pvm);
 	}
@@ -448,6 +442,10 @@ public class Investigador_GUI extends JFrame {
 	public JButton getBtn_AlterarCultura_pvc() {
 		return btn_AlterarCultura_pvc;
 	}
+	
+	public JButton getBtn_EliminarCultura_pvc() {
+		return btn_EliminarCultura_pvc;
+	}
 
 	public JTextField getTextField_LimiteInferior_pav() {
 		return textField_LimiteInferior_pav;
@@ -503,6 +501,18 @@ public class Investigador_GUI extends JFrame {
 
 	public DefaultTableModel getModelTable_pvm() {
 		return modelTable_pvm;
+	}
+	
+	public JTable getTableMedicoes_pvm() {
+		return tableMedicoes_pvm;
+	}
+	
+	public JButton getBtnEditar_pvm() {
+		return btnEditar_pvm;
+	}
+
+	public JButton getBtnApagar_pvm() {
+		return btnApagar_pvm;
 	}
 
 	public JButton getBtnLogout() {

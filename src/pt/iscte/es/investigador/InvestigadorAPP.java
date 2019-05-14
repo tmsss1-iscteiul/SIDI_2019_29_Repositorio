@@ -14,9 +14,8 @@ import pt.iscte.es.objetos.Medicao;
 import pt.iscte.es.objetos.Variavel;
 
 /**
- * 
+ * Classe com interface grafica para utilização do Investigador.
  * @author jfnfs
- *
  */
 public class InvestigadorAPP {
 
@@ -25,19 +24,20 @@ public class InvestigadorAPP {
 
 	private ArrayList<Cultura> listaCulturas;
 	private ArrayList<Variavel> listaVariaveis;
-	private ArrayList<Medicao> medicoes;
+	private ArrayList<Medicao> medicoesTodas;
+	private ArrayList<Medicao> medicoesVariavel;
 
-	/* Para Testar Sem Fazer Login
+	// Para Testar Sem Fazer Login
 	public static void main(String[] args) {
 		Login l = new Login();
-		Connection c = l.getConnection("root", "");
-		InvestigadorAPP i = new InvestigadorAPP(c, "root");
+		Connection c = l.getConnection("teste2", "");
+		InvestigadorAPP i = new InvestigadorAPP(c, "teste2");
 		i.start();
 	}
-	 */
-	
+
 	/**
 	 * Cria conexção para o investigador
+	 * 
 	 * @param conn
 	 * @param username
 	 */
@@ -47,12 +47,14 @@ public class InvestigadorAPP {
 	}
 
 	/**
-	 * 
+	 * Inicializa Atributos da classe e abre a interface grafica.
 	 */
 	public void start() {
 		try {
 			listaCulturas = cmd.getCultura();
 			listaVariaveis = cmd.getVariaveis();
+			medicoesTodas = new ArrayList<>();
+			medicoesVariavel = new ArrayList<>();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -61,7 +63,7 @@ public class InvestigadorAPP {
 	}
 
 	/**
-	 * 
+	 * Adiciona ações dos botoes e caixas de texto
 	 */
 	private void addButtonsActionListener() {
 		// Painel Inserir Cultura
@@ -117,7 +119,6 @@ public class InvestigadorAPP {
 				}
 			}
 		});
-
 		gui.getBtn_AlterarCultura_pvc().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -129,6 +130,22 @@ public class InvestigadorAPP {
 					updateListaCulturas();
 					gui.changePanel("CriarCultura");
 					JOptionPane.showMessageDialog(null, "Cultura alterada com sucesso.");
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		gui.getBtn_EliminarCultura_pvc().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					int index = gui.getComboBox_Cultura_pvc().getSelectedIndex();
+					Cultura cultura = listaCulturas.get(index);
+					cmd.removeCultura(cultura.getID());
+					updateListaCulturas();
+					gui.changePanel("CriarCultura");
+					JOptionPane.showMessageDialog(null, "Cultura eliminada com sucesso.");
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -224,7 +241,8 @@ public class InvestigadorAPP {
 						JOptionPane.showMessageDialog(null, "Medição inserida com sucesso.");
 					}
 				} catch (SQLException e1) {
-					e1.printStackTrace();
+					gui.getTextField_ValorMedicao_pim().setText("");
+					JOptionPane.showMessageDialog(null, "Limite Atingido.");
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -255,8 +273,10 @@ public class InvestigadorAPP {
 						for (Variavel variavel : listaAuxVariavel2) {
 							gui.getComboBox_Variavel_pvm().addItem(variavel.getNome());
 						}
-						if (!listaAuxVariavel2.isEmpty())
+						if (!listaAuxVariavel2.isEmpty()) {
 							gui.getComboBox_Variavel_pvm().addItem("Todas Variaveis");
+						}
+						updateMedicoes();
 					}
 				} catch (Exception e1) {
 					e1.printStackTrace();
@@ -264,11 +284,45 @@ public class InvestigadorAPP {
 			}
 		});
 		gui.getComboBox_Variavel_pvm().addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(gui.getComboBox_Variavel_pvm().getSelectedItem()!=null){
+				if (gui.getComboBox_Variavel_pvm().getSelectedItem() != null && medicoesTodas != null) {
+					int indexCultura = gui.getComboBox_Cultura_pvm().getSelectedIndex();
+					int indexVariavel = gui.getComboBox_Variavel_pvm().getSelectedIndex();
+					String variavel = gui.getComboBox_Variavel_pvm().getSelectedItem().toString();
+					if (variavel.equals("Todas Variaveis"))
+						repaintTable(listaCulturas.get(indexCultura).getID());
+					else
+						repaintTable(listaCulturas.get(indexCultura).getID(),
+								listaVariaveis.get(indexVariavel).getID());
+
+				}
+			}
+		});
+		gui.getBtnApagar_pvm().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					int indexCultura = gui.getComboBox_Cultura_pvm().getSelectedIndex();
+					int indexVariavel = gui.getComboBox_Variavel_pvm().getSelectedIndex();
+					String variavel = gui.getComboBox_Variavel_pvm().getSelectedItem().toString();
 					
+					if (variavel.equals("Todas Variaveis")){
+						int numeroMedicao = medicoesTodas.get(gui.getTableMedicoes_pvm().getSelectedRow()).getNumeroMedicao();
+						cmd.removerMedicao(numeroMedicao);
+						repaintTable(listaCulturas.get(indexCultura).getID());
+					}
+					else{
+						int numeroMedicao = medicoesVariavel.get(gui.getTableMedicoes_pvm().getSelectedRow()).getNumeroMedicao();
+						cmd.removerMedicao(numeroMedicao);
+						repaintTable(listaCulturas.get(indexCultura).getID(),
+								listaVariaveis.get(indexVariavel).getID());
+					}
+					
+				} catch (Exception e1) {
+					e1.printStackTrace();
 				}
 			}
 		});
@@ -282,20 +336,55 @@ public class InvestigadorAPP {
 
 	/**
 	 * Actualiza a lista de culturas
+	 * 
 	 * @throws Exception
 	 */
 	private void updateListaCulturas() throws Exception {
 		listaCulturas.clear();
 		listaCulturas = cmd.getCultura();
 	}
-	
+
 	/**
 	 * Actualiza Medições do Investigador
+	 * 
 	 * @throws Exception
 	 */
-	private void updateMedicoes() throws Exception {
-		medicoes.clear();
-		medicoes = cmd.getMedicoes();
+	private void updateMedicoes() {
+		medicoesTodas.clear();
+		for (Cultura c : listaCulturas) {
+			medicoesTodas.addAll(cmd.getMedicoes(c.getID()));
+		}
+	}
+
+	/**
+	 * Escreve Medicoes de todas variaveis.
+	 * @param idCultura
+	 */
+	private void repaintTable(int idCultura) {
+		gui.getModelTable_pvm().setRowCount(0);
+		updateMedicoes();
+
+		for (Medicao m : medicoesTodas) {
+			if (m.getIdCultura() == idCultura)
+				gui.getModelTable_pvm().addRow(new Object[] { m.getNumeroMedicao(), m.getValorMedicao(), m.getData() });
+		}
+	}
+
+	/**
+	 * Escrve Medicoes de uma variavel especifica.
+	 * @param idCultura
+	 * @param idVariavel
+	 */
+	private void repaintTable(int idCultura, int idVariavel) {
+		gui.getModelTable_pvm().setRowCount(0);
+		updateMedicoes();
+		medicoesVariavel.clear();
+		for (Medicao m : medicoesTodas) {
+			if (m.getIdCultura() == idCultura && m.getIdVariavel() == idVariavel){
+				gui.getModelTable_pvm().addRow(new Object[] { m.getNumeroMedicao(), m.getValorMedicao(), m.getData()});
+				medicoesVariavel.add(m);
+			}
+		}
 	}
 
 	/**

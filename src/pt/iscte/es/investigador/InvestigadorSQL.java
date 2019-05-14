@@ -7,9 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import javax.swing.JOptionPane;
 
@@ -28,6 +26,7 @@ public class InvestigadorSQL {
 
 	/**
 	 * Construtor
+	 * 
 	 * @param conn
 	 * @param username
 	 */
@@ -38,6 +37,7 @@ public class InvestigadorSQL {
 
 	/**
 	 * Devolve email do investigador presente na Base de Dados
+	 * 
 	 * @return
 	 * @throws IOException
 	 * @throws SQLException
@@ -58,10 +58,11 @@ public class InvestigadorSQL {
 
 	/**
 	 * Devolve Culturas na Base de Dados
+	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	public ArrayList<Cultura> getCultura() throws Exception {
+	public ArrayList<Cultura> getCultura() {
 		ArrayList<Cultura> culturas = new ArrayList<>();
 		try {
 			PreparedStatement statement = conn.prepareStatement(
@@ -80,6 +81,7 @@ public class InvestigadorSQL {
 
 	/**
 	 * Devolve Culturas sem Variaveis
+	 * 
 	 * @return
 	 * @throws Exception
 	 */
@@ -100,6 +102,7 @@ public class InvestigadorSQL {
 
 	/**
 	 * Devolve o ID da Cultura
+	 * 
 	 * @param nomeCultura
 	 * @return
 	 * @throws Exception
@@ -116,6 +119,7 @@ public class InvestigadorSQL {
 
 	/**
 	 * Insere uma nova Cultura
+	 * 
 	 * @param cultura
 	 * @param descricao
 	 * @throws IOException
@@ -131,7 +135,8 @@ public class InvestigadorSQL {
 	}
 
 	/**
-	 * Devovle o id Cultura
+	 * Devovle o ultimo id Cultura
+	 * 
 	 * @return
 	 * @throws IOException
 	 * @throws SQLException
@@ -151,6 +156,7 @@ public class InvestigadorSQL {
 
 	/**
 	 * Actualiza a Cultura
+	 * 
 	 * @param nomeAntigo
 	 * @param nomeFuturo
 	 * @param descricao
@@ -168,9 +174,25 @@ public class InvestigadorSQL {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Remove Cultura
+	 * @param idCultura
+	 */
+	public void removeCultura(int idCultura){
+		PreparedStatement query;
+		try {
+			query = conn.prepareStatement("DELETE FROM cultura where IDCultura = ?;");
+			query.setInt(1, idCultura);
+			query.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * Devolve lista de Variaveis
+	 * 
 	 * @return
 	 * @throws Exception
 	 */
@@ -190,6 +212,7 @@ public class InvestigadorSQL {
 
 	/**
 	 * Devolve lista de Variaveis para determinada Cultura
+	 * 
 	 * @param idCultura
 	 * @return
 	 * @throws Exception
@@ -213,6 +236,7 @@ public class InvestigadorSQL {
 
 	/**
 	 * Devolve Variaveis para Cultura especifica
+	 * 
 	 * @param idCultura
 	 * @return
 	 */
@@ -237,6 +261,7 @@ public class InvestigadorSQL {
 
 	/**
 	 * Devolve Id da Variavel
+	 * 
 	 * @param nomeVariavel
 	 * @return
 	 * @throws Exception
@@ -253,6 +278,7 @@ public class InvestigadorSQL {
 
 	/**
 	 * Insere Variavel
+	 * 
 	 * @param idVariaveis
 	 * @param idCultura
 	 * @param limiteInferior
@@ -279,61 +305,54 @@ public class InvestigadorSQL {
 
 	/**
 	 * Insere Medição nova
+	 * 
 	 * @param cultura
 	 * @param variavel
 	 * @param valor
 	 * @throws SQLException
 	 * @throws IOException
 	 */
-	public void insertMedicao(int cultura, int variavel, double valor) throws SQLException, IOException {
-		//String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
-		 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		//int numeroMedicao = getNumeroMedicaoMax() + 1;
+	public void insertMedicao(int ID_cultura, int ID_variavel, double valor) throws SQLException, IOException {
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		CallableStatement stmt = conn.prepareCall("{call Insert_Medicao_v3(?,?,?,?)}");
 		stmt.setDouble(1, valor);
-		stmt.setInt(2, variavel);
-		stmt.setInt(3, cultura);
+		stmt.setInt(2, ID_variavel);
+		stmt.setInt(3, ID_cultura);
 		stmt.setTimestamp(4, timestamp);
 		stmt.execute();
+		System.out.println("" + ID_cultura);
+		System.out.println("" + ID_variavel);
+		System.out.println("" + valor);
+		System.out.println("" + timestamp);
 	}
 
-//	private int getNumeroMedicaoMax() throws SQLException {
-//		int x = 0;
-//		PreparedStatement statement = conn.prepareStatement("SELECT max(NumeroMedicao) from medicoes");
-//		ResultSet result = statement.executeQuery();
-//		while (result.next()) {
-//			x = result.getInt(1);
-//		}
-//		if (x == 0) {
-//			System.out.println("Erro ao tentar encontrar último ID da tabela cultura");
-//		}
-//		return x;
-//	}
-//
-//	public ArrayList<Medicao> getMedicoesVariavel(int idCultura, int idVariavel) {
-//		ArrayList<Medicao> medicoes = new ArrayList<>();
-//		try {
-//			PreparedStatement statement = conn.prepareStatement(
-//					"SELECT IDVariavel_Variaveis, IDCultura_Cultura from variaveismedidas where IDCultura_Cultura = ?");
-//			statement.setInt(1, idCultura);
-//			ResultSet result = statement.executeQuery();
-//			while (result.next()) {
-//				/*
-//				medicoes.add(new Medicao(result.getInt(IDVariavel_Variaveis), result.getInt(IDCultura_Cultura),
-//						result.getInt(IDVariavel_Variaveis), result.getInt(IDCultura_Cultura),
-//						result.getString(IDCultura_Cultura)));
-//				 */
-//			}
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//		return null;
-//	}
-
-	public ArrayList<Medicao> getMedicoes() {
-		// TODO Auto-generated method stub
+	public ArrayList<Medicao> getMedicoes(int ID_Cultura) {
+		ArrayList<Medicao> medicoes = new ArrayList<>();
+		try {
+			PreparedStatement statement = conn.prepareStatement(
+					"SELECT NumeroMedicao, ValorMedicao, DataHoraMedicao, IDVariaveis_VariaveisMedidas from medicoes where IDCultura_VariaveisMedidas = ?");
+			statement.setInt(1, ID_Cultura);
+			ResultSet result = statement.executeQuery();
+			while (result.next()) {
+				medicoes.add(new Medicao(result.getInt("NumeroMedicao"), ID_Cultura,
+						result.getInt("IDVariaveis_VariaveisMedidas"), result.getDouble("ValorMedicao"),
+						result.getString("DataHoraMedicao")));
+			}
+			return medicoes;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return null;
+	}
+
+	public void removerMedicao(int numeroMedicao) {
+		PreparedStatement statement;
+		try {
+			statement = conn.prepareStatement("DELETE FROM medicoes where NumeroMedicao = ?;");
+			statement.setInt(1, numeroMedicao);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
