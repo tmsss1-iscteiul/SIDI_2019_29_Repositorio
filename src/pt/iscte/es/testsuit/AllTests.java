@@ -17,7 +17,7 @@ import pt.iscte.es.objetos.Investigador;
 import pt.iscte.es.objetos.Variavel;
 
 /**
- * 
+ * Classe com os varios testes da apiclação.
  * @author 
  *
  */
@@ -25,8 +25,8 @@ public class AllTests {
 	
 	private String investigador = "root";
 	private String investigadorPass = "";
-	private String admin = "";
-	private String adminPass = "";
+	private String admin = "admin";
+	private String adminPass = "12345";
 	
 
 	/**
@@ -52,13 +52,11 @@ public class AllTests {
 		ArrayList<Cultura> cultura = cmd.getCultura();
 		assert(!cultura.isEmpty());
 		//inserirCultura
-		/*
 		int size = cultura.size();
 		cmd.inserirCultura("CulturaTeste12345", "CulturaDescricao");
 		size++;
 		cultura = cmd.getCultura();
 		assertEquals(size, cultura.size());
-		*/
 		//getVariaveis
 		ArrayList<Variavel> variavel = cmd.getVariaveis();
 		assert(!variavel.isEmpty());
@@ -68,7 +66,9 @@ public class AllTests {
 		//buscaIDCultura
 		Cultura culturaAux = cultura.get(cultura.size()-1);
 		assertEquals(culturaAux.getID(), cmd.buscaIDCultura(culturaAux.getNome()));
+		//buscaEmail
 		assertEquals(culturaAux.getEmailInvestigador(), cmd.buscaEmail());
+		//idCulturaUltimo
 		assertEquals(culturaAux.getID(), cmd.idCultura());
 		//buscaIDVariavel
 		Variavel variavelAux = variavel.get(variavel.size()-1);
@@ -77,6 +77,14 @@ public class AllTests {
 		assertNotEquals(null, variavel);
 		variavel = cmd .getVariavelEspecifica(1);
 		assertNotEquals(null, variavel);
+		//removerCultura
+		cultura = cmd.getCultura();
+		size = cultura.size();
+		cmd.removeCultura(culturaAux.getID());
+		size--;
+		cultura = cmd.getCultura();		
+		assertEquals(size, cultura.size());
+		
 		
 		//Admin
 		AdminSQL adminSQL = new AdminSQL(c2, admin);
