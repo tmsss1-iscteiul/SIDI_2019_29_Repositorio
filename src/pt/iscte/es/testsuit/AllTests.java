@@ -13,6 +13,7 @@ import pt.iscte.es.investigador.InvestigadorAPP;
 import pt.iscte.es.investigador.InvestigadorSQL;
 import pt.iscte.es.login.Login;
 import pt.iscte.es.objetos.Cultura;
+import pt.iscte.es.objetos.Investigador;
 import pt.iscte.es.objetos.Variavel;
 
 /**
@@ -21,6 +22,12 @@ import pt.iscte.es.objetos.Variavel;
  *
  */
 public class AllTests {
+	
+	private String investigador = "root";
+	private String investigadorPass = "";
+	private String admin = "";
+	private String adminPass = "";
+	
 
 	/**
 	 * Classe de Testes
@@ -34,7 +41,7 @@ public class AllTests {
 		InvestigadorAPP in = new InvestigadorAPP(c, investigador);
 		assertNotEquals(null, in);
 		
-		Connection c2 = login.getConnection(admin, passAdmin);
+		Connection c2 = login.getConnection(admin, adminPass);
 		assertNotEquals(null, c2);
 		AdminAPP ad = new AdminAPP(c2, admin);
 		assertNotEquals(null, ad);
