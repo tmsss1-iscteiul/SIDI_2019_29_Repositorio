@@ -69,7 +69,7 @@ public class Investigador_GUI extends JFrame {
 	private JButton btnEditar_pvm;
 	private JButton btnApagar_pvm;
 
-	private JButton btnChangePassword;
+	private JButton btn_ChangePassword;
 	private JButton btnLogout;
 
 
@@ -175,9 +175,9 @@ public class Investigador_GUI extends JFrame {
 		South.setLayout(null);
 		contentPane.add(South);
 
-		btnChangePassword = new JButton("Alterar Password");
-		btnChangePassword.setBounds(10, 5, 160, 30);
-		South.add(btnChangePassword);
+		btn_ChangePassword = new JButton("Alterar Password");
+		btn_ChangePassword.setBounds(10, 5, 160, 30);
+		South.add(btn_ChangePassword);
 		
 		btnLogout = new JButton("Logout");
 		btnLogout.setBounds(235, 5, 80, 30);
@@ -522,7 +522,7 @@ public class Investigador_GUI extends JFrame {
 	}
 	
 	public JButton getBtnChangePassword() {
-		return btnChangePassword;
+		return btn_ChangePassword;
 	}
 
 	public JButton getBtnLogout() {
