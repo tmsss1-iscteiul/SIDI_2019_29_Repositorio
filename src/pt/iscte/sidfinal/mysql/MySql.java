@@ -27,7 +27,7 @@ public class MySql extends Thread{
 	// Credenciais (username e password) de acesso ao MySQL
 	
 	static final String USER = "root";
-	static final String PASS = "";
+	static final String PASS = "root";
 	//---
 	
 	private Connection conn = null;

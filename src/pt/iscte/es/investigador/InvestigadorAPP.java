@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import pt.iscte.es.login.Login;
 import pt.iscte.es.objetos.Cultura;
@@ -324,6 +325,23 @@ public class InvestigadorAPP {
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
+			}
+		});
+		
+		gui.getBtnChangePassword().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String pass = JOptionPane.showInputDialog("Change Password");
+				if(!pass.equals("")) {
+					try {
+						cmd.changePassword(pass);
+						JOptionPane.showMessageDialog(null, "Password alterada com sucesso.", "Change Password", 1);
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+				}else
+					JOptionPane.showMessageDialog(null, "Password não permitida.", "Change Password", 0);
 			}
 		});
 		gui.getBtnLogout().addActionListener(new ActionListener() {

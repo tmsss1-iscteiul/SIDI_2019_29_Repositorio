@@ -57,7 +57,7 @@ public class AdminSQL {
 	public void inserirInvestigador(String mail, String nome, String categoriaProfissional) throws Exception {
 		try {	
 			String random = "random";
-			CallableStatement stmt = conn.prepareCall("{call InserirInvestigador(?,?,?,?)}");
+			CallableStatement stmt = conn.prepareCall("{call InsertInvestigador(?,?,?,?)}");
 			stmt.setString(1, mail);
 			stmt.setString(2, random);
 			stmt.setString(3, nome);

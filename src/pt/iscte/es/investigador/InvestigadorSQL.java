@@ -20,6 +20,14 @@ import pt.iscte.es.objetos.Variavel;
  * @author jfnfs
  *
  */
+/**
+ * @author Acer
+ *
+ */
+/**
+ * @author Acer
+ *
+ */
 public class InvestigadorSQL {
 	private Connection conn;
 	private String username;
@@ -54,6 +62,21 @@ public class InvestigadorSQL {
 			System.out.println("Erro ao tentar encontrar o e-mail do Investigador");
 		}
 		return mail;
+	}
+	
+	/**
+	 * Altera a password do utilizador corrente
+	 * @param pass
+	 * @throws SQLException
+	 */
+	public void changePassword(String pass) throws SQLException {
+		//PreparedStatement statement = conn.prepareStatement("SET PASSWORD FOR ?'@'localhost = PASSWORD(?)");
+		PreparedStatement statement = conn.prepareStatement("SET PASSWORD FOR ?@? = PASSWORD(?)");
+		statement.setString(1, username);
+		statement.setString(2, "localhost");
+		statement.setString(3, pass);
+		
+		statement.executeQuery();
 	}
 
 	/**

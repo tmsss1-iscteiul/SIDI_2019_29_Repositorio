@@ -75,7 +75,7 @@ public class Paho implements MqttCallback {
 	    	if(!connect){
 	    		String publisherId = UUID.randomUUID().toString();
 		        client = new MqttClient("tcp://broker.mqtt-dashboard.com:1883", publisherId);  //usar para testes com /sid_lab_2019_g29_test
-		        //client = new MqttClient("tcp://iot.eclipse.org:1883", publisherId); //usar para testes com /sid_lab_2019_g29_test
+		       // client = new MqttClient("tcp://iot.eclipse.org:1883", publisherId); //usar para testes com /sid_lab_2019_g29_test
 		        client.connect();
 		        //System.out.println("Connection Paho done!");
 		        client.setCallback(this);

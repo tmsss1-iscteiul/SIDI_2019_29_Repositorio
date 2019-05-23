@@ -5,7 +5,9 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.regex.Pattern;
 
 import javax.swing.DefaultListModel;
@@ -39,13 +41,16 @@ public class Algorithm {
 	// Metodo para inserir data e hora para testes mais rapidos e para a parte manual
 	
 	public void insertDateTime(MqttMessage message){
-	
+		
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		Date date = new Date();
-		DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-		Date time = new Date();
+	    DateFormat gmtFormat = new SimpleDateFormat("HH:mm:ss");
+	    TimeZone gmtTime = TimeZone.getTimeZone("GMT+1");
+	    gmtFormat.setTimeZone(gmtTime);
+	    System.out.println("GMT Time: " + gmtFormat.format(date));
 		
-		messageString = "{" + message.toString() + ",\"date\":\"" + dateFormat.format(date) + "\",\"time\":\"" + timeFormat.format(time) + "\"}";
+		
+		messageString = "{" + message.toString() + ",\"date\":\"" + dateFormat.format(date) + "\",\"time\":\"" +  gmtFormat.format(date) + "\"}";
 	}
 	
 	/* Metodo que vai confirmar se a mensagem é uma mensagem para ser enviada para o MongoDB ou nao, 
@@ -94,14 +99,20 @@ public class Algorithm {
 			
 			if(!messageToConfirm.containsKey("tim")){
 				Date date = new Date();
-				SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");  
-				messageToConfirm.put("tim", formatter.format(date).toString());
+			    DateFormat gmtFormat = new SimpleDateFormat("HH:mm:ss");
+			    TimeZone gmtTime = TimeZone.getTimeZone("GMT+1");
+			    gmtFormat.setTimeZone(gmtTime);
+				 
+				messageToConfirm.put("tim",  gmtFormat.format(date));
 			}
-			else if (messageToConfirm.get("tim").equals("") || Pattern.matches("[a-zA-Z]+", messageToConfirm.get("tim").toString())) {
+			else if (messageToConfirm.get("tim").equals("") || Pattern.matches("[a-zA-Z]+", messageToConfirm.get("tim").toString()) || messageToConfirm.containsKey("tim")) {
 				messageToConfirm.remove("tim");
 				Date date = new Date();
-				SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");  
-				messageToConfirm.put("tim", formatter.format(date).toString());
+			    DateFormat gmtFormat = new SimpleDateFormat("HH:mm:ss");
+			    TimeZone gmtTime = TimeZone.getTimeZone("GMT+1");
+			    gmtFormat.setTimeZone(gmtTime);
+				 
+				messageToConfirm.put("tim",  gmtFormat.format(date));
 			}
 			
 			if(!messageToConfirm.containsKey("tmp")){
